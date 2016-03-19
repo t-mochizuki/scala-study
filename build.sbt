@@ -14,3 +14,9 @@ lazy val day2 = (project in file("day2")).
     baseSettings,
     name := "day2"
   )
+lazy val day3 = (project in file("day3")).
+  settings(
+    baseSettings,
+    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
+    name := "day3"
+  )
