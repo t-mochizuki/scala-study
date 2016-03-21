@@ -20,3 +20,9 @@ lazy val day3 = (project in file("day3")).
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
     name := "day3"
   )
+lazy val day4 = (project in file("day4")).
+  settings(
+    baseSettings,
+    libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.0",
+    name := "day4"
+  )
