@@ -1,6 +1,6 @@
 lazy val baseSettings = Seq(
     version := "0.0.1",
-    scalaVersion := "2.11.7",
+    scalaVersion := "2.11.8",
     scalacOptions ++= Seq("-language:experimental.macros", "-deprecation", "-feature", "-language:higherKinds"),
     libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
   )
@@ -25,4 +25,10 @@ lazy val day4 = (project in file("day4")).
     baseSettings,
     libraryDependencies += "com.chuusai" %% "shapeless" % "2.3.0",
     name := "day4"
+  )
+lazy val day5 = (project in file("day5")).
+  settings(
+    baseSettings,
+    libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value,
+    name := "day5"
   )
