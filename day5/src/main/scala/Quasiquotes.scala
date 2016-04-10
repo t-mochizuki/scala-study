@@ -8,3 +8,12 @@ object Quasiquotes {
   def showCodeC = println(showCode(C))
   def showRowC = println(showRaw(C))
 }
+
+object Macro {
+  import scala.reflect.macros.whitebox.Context
+  def sum(lhs: Int, rhs: Int): Int = macro impl
+  def impl(c: Context)(lhs: c.Tree, rhs: c.Tree) = {
+    import c.universe._
+    q"$lhs + $rhs"
+  }
+}
