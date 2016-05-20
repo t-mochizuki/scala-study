@@ -38,3 +38,9 @@ lazy val day6 = (project in file("day6")).
     libraryDependencies += "org.json4s" % "json4s-native_2.11" % "3.3.0",
     name := "day6"
   )
+lazy val day7 = (project in file("day7")).
+  settings(
+    baseSettings,
+    libraryDependencies += "io.argonaut" %% "argonaut" % "6.1",
+    name := "day7"
+  )
