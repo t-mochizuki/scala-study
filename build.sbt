@@ -44,3 +44,14 @@ lazy val day7 = (project in file("day7")).
     libraryDependencies += "io.argonaut" %% "argonaut" % "6.1",
     name := "day7"
   )
+val circeVersion = "0.4.1"
+lazy val day8 = (project in file("day8")).
+  settings(
+    baseSettings,
+    libraryDependencies ++= Seq(
+      "io.circe" %% "circe-core",
+      "io.circe" %% "circe-generic",
+      "io.circe" %% "circe-parser"
+    ).map(_ % circeVersion),
+    name := "day8"
+  )
