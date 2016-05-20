@@ -1,7 +1,7 @@
 lazy val baseSettings = Seq(
     version := "0.0.1",
     scalaVersion := "2.11.8",
-    scalacOptions ++= Seq("-language:experimental.macros", "-deprecation", "-feature", "-language:higherKinds"),
+    scalacOptions ++= Seq("-language:experimental.macros", "-deprecation", "-feature", "-language:higherKinds", "-unchecked", "-Xlint"),
     libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
   )
 lazy val day1 = (project in file("day1")).
@@ -31,4 +31,10 @@ lazy val day5 = (project in file("day5")).
     baseSettings,
     libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value,
     name := "day5"
+  )
+lazy val day6 = (project in file("day6")).
+  settings(
+    baseSettings,
+    libraryDependencies += "org.json4s" % "json4s-native_2.11" % "3.3.0",
+    name := "day6"
   )
