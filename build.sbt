@@ -55,3 +55,12 @@ lazy val day8 = (project in file("day8")).
     ).map(_ % circeVersion),
     name := "day8"
   )
+lazy val day9 = (project in file("day9")).
+  settings(
+    baseSettings,
+    libraryDependencies ++= Seq(
+      "org.scalactic" %% "scalactic" % "2.2.6",
+      "org.scalatest" %% "scalatest" % "2.2.6" % "test"
+    ),
+    name := "day9"
+  )
