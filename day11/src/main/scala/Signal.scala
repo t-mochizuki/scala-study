@@ -1,3 +1,5 @@
 sealed trait Signal
 
-case object Signal extends Signal
+case object Red extends Signal
+case object Yellow extends Signal
+case object Blue extends Signal

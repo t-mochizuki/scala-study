@@ -1,12 +1,12 @@
 class Car(person: Person) {
-  def drive(red: Option[Signal], yellow: Option[Signal], blue: Option[Signal]): DrivingState =
-    (red, yellow, blue) match {
-      case (Some(r), None, None) =>
+  def drive(signal: Signal): DrivingState =
+    signal match {
+      case Red =>
         Stop
-      case (None, Some(y), None) =>
+      case Yellow =>
         if (person.personality == Impatient) Run
         else Stop
-      case (None, None, Some(b)) =>
+      case Blue =>
         Run
     }
 }
