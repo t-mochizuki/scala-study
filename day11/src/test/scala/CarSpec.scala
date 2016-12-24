@@ -3,18 +3,19 @@ import Prop.forAll
 
 object CarSpec extends Properties("Car") {
 
+  def genPersonality = Gen.oneOf(Impatient, Gentle)
+  def genPerson = for(personality <- genPersonality) yield new Person(personality)
+  def genCar = for(person <- genPerson) yield new Car(person)
   def genSignal = Gen.oneOf(Red, Yellow, Blue)
 
-  property("constraint") = forAll(genSignal) { signal =>
-    val person = new Person(Gentle)
-    val car = new Car(person)
+  property("constraint") = forAll(genCar, genSignal) { (car, signal) =>
     val drivingState = car.drive(signal)
 
     val result = signal match {
       case Red =>
         drivingState == Stop
       case Yellow =>
-        if (person.personality == Impatient) drivingState == Run
+        if (car.person.personality == Impatient) drivingState == Run
         else drivingState == Stop
       case Blue =>
         drivingState == Run

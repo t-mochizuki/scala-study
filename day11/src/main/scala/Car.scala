@@ -1,4 +1,4 @@
-class Car(person: Person) {
+class Car(val person: Person) {
   def drive(signal: Signal): DrivingState =
     signal match {
       case Red =>
