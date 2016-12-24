@@ -9,6 +9,18 @@ lazy val day1 = (project in file("day1")).
     baseSettings,
     name := "day1"
   )
+lazy val day10 = (project in file("day10")).
+  settings(
+    baseSettings,
+    libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.13.0" % "test",
+    name := "day10"
+  )
+lazy val day11 = (project in file("day11")).
+  settings(
+    baseSettings,
+    libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.13.0" % "test",
+    name := "day11"
+  )
 lazy val day2 = (project in file("day2")).
   settings(
     baseSettings,
@@ -63,10 +75,4 @@ lazy val day9 = (project in file("day9")).
       "org.scalatest" %% "scalatest" % "2.2.6" % "test"
     ),
     name := "day9"
-  )
-lazy val day10 = (project in file("day10")).
-  settings(
-    baseSettings,
-    libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.13.0" % "test",
-    name := "day10"
   )
