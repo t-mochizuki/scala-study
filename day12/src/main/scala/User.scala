@@ -1,6 +1,11 @@
-case class User(superUser: Boolean, authorities: Seq[Authority]) {
-  def access(site: Site): Boolean =
-    if (superUser) true
-    else if (site.authority.isEmpty) true
-    else authorities.contains(site.authority.get)
+sealed trait User {
+  def access(site: Site): Boolean
+}
+
+case class NormalUser(authorities: Seq[Authority]) extends User {
+  def access(site: Site): Boolean = site.authority.map(authorities.contains(_)).getOrElse(true)
+}
+
+case object SuperUser extends User {
+  def access(site: Site): Boolean = true
 }
