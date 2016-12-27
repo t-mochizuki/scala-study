@@ -27,6 +27,12 @@ lazy val day12 = (project in file("day12")).
     libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.13.0" % "test",
     name := "day12"
   )
+lazy val day13 = (project in file("day13")).
+  settings(
+    baseSettings,
+    libraryDependencies += "com.typesafe.akka" %% "akka-http" % "10.0.1",
+    name := "day13"
+  )
 lazy val day2 = (project in file("day2")).
   settings(
     baseSettings,
