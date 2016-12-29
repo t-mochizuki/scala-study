@@ -33,6 +33,12 @@ lazy val day13 = (project in file("day13")).
     libraryDependencies += "com.typesafe.akka" %% "akka-http" % "10.0.1",
     name := "day13"
   )
+lazy val day14 = (project in file("day14")).
+  settings(
+    baseSettings,
+    libraryDependencies += "org.apache.spark" %% "spark-core" % "2.0.2",
+    name := "day14"
+  )
 lazy val day2 = (project in file("day2")).
   settings(
     baseSettings,
