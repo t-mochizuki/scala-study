@@ -45,6 +45,19 @@ lazy val day15 = (project in file("day15")).
     libraryDependencies += "com.github.tototoshi" %% "scala-csv" % "1.3.4",
     name := "day15"
   )
+val circeVersion = "0.7.0"
+lazy val day16 = (project in file("day16")).
+  settings(
+    baseSettings,
+    libraryDependencies ++= Seq(
+      "org.skinny-framework" %% "skinny-http-client" % "2.3.5",
+      "com.typesafe" % "config" % "1.3.1",
+      "io.circe" %% "circe-core" % circeVersion,
+      "io.circe" %% "circe-generic" % circeVersion,
+      "io.circe" %% "circe-parser" % circeVersion
+    ),
+    name := "day16"
+  )
 lazy val day2 = (project in file("day2")).
   settings(
     baseSettings,
@@ -80,7 +93,6 @@ lazy val day7 = (project in file("day7")).
     libraryDependencies += "io.argonaut" %% "argonaut" % "6.1",
     name := "day7"
   )
-val circeVersion = "0.4.1"
 lazy val day8 = (project in file("day8")).
   settings(
     baseSettings,
