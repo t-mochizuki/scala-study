@@ -39,6 +39,12 @@ lazy val day14 = (project in file("day14")).
     libraryDependencies += "org.apache.spark" %% "spark-core" % "2.0.2",
     name := "day14"
   )
+lazy val day15 = (project in file("day15")).
+  settings(
+    baseSettings,
+    libraryDependencies += "com.github.tototoshi" %% "scala-csv" % "1.3.4",
+    name := "day15"
+  )
 lazy val day2 = (project in file("day2")).
   settings(
     baseSettings,
