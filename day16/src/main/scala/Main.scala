@@ -30,4 +30,9 @@ object HelloSkinnyHttpClient extends App {
   val response1 = HTTP.get(logoutUrl, "access_token" -> accessToken)
   assert(response1.status == 401)
 
+  val csvUrl = "http://localhost:9001/api/hoge/files/1"
+  val response2 = HTTP.get(csvUrl)
+  // /tmp/example.csvがあるときに有効
+  // response2.textBody
+
 }
