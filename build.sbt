@@ -58,6 +58,13 @@ lazy val day16 = (project in file("day16")).
     ),
     name := "day16"
   )
+lazy val day17 = (project in file("day17")).
+  settings(
+    baseSettings,
+    libraryDependencies += "com.github.tototoshi" %% "scala-csv" % "1.3.4",
+    name := "day17"
+  )
+  .enablePlugins(PlayScala)
 lazy val day2 = (project in file("day2")).
   settings(
     baseSettings,

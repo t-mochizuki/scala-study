@@ -1,0 +1,1 @@
+GET /api/hoge/files/:id controllers.Csv.files(id: Long)
