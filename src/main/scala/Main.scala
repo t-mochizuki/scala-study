@@ -1,10 +1,12 @@
 import com.google.ads.googleads.lib.GoogleAdsClient
 import com.google.ads.googleads.v1.services.SearchGoogleAdsRequest
+import java.io.File
 
 // sbt "run 1231231234"
 object Main extends App {
   val loginCustomerId = args(0)
-  val googleAdsClient = GoogleAdsClient.newBuilder().fromPropertiesFile().build()
+  val propertiesFile = new File("src/main/resources/ads.properties")
+  val googleAdsClient = GoogleAdsClient.newBuilder().fromPropertiesFile(propertiesFile).build()
   val campaigns = runExample(googleAdsClient, loginCustomerId)
 
   private[this] def runExample(googleAdsClient: GoogleAdsClient, loginCustomerId: String) {
