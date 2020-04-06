@@ -1,4 +1,6 @@
 val http4sVersion = "0.20.20"
+val catsEffectVersion = "2.1.2"
+val logbackVersion = "1.2.3"
 
 // Only necessary for SNAPSHOT releases
 resolvers += Resolver.sonatypeRepo("snapshots")
@@ -6,12 +8,10 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 libraryDependencies ++= Seq(
   "org.http4s" %% "http4s-dsl" % http4sVersion,
   "org.http4s" %% "http4s-blaze-server" % http4sVersion,
-  "org.http4s" %% "http4s-blaze-client" % http4sVersion
+  "org.http4s" %% "http4s-blaze-client" % http4sVersion,
+  "org.typelevel" %% "cats-effect" % catsEffectVersion,
+  "ch.qos.logback" % "logback-classic" % logbackVersion
 )
-
-val catsEffectVersion = "2.1.2"
-
-libraryDependencies += "org.typelevel" %% "cats-effect" % catsEffectVersion
 
 scalacOptions ++= Seq("-Ypartial-unification")
 
