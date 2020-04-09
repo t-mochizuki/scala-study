@@ -1,5 +1,10 @@
 package example
 
+import io.circe._
+import io.circe.generic.auto._
+import io.circe.parser._
+import io.circe.syntax._
+
 object Main extends App {
   val condition =
     Condition(
@@ -16,5 +21,7 @@ object Main extends App {
             Or,
             SearchCondition("height", GreaterThan, "167")))))
 
-  println(condition)
+  val json = condition.asJson
+
+  println(json)
 }
