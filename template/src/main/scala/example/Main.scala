@@ -1,5 +1,7 @@
 package example
 
-object Main extends App {
-  println("Hello, world.")
+object Main {
+  def main(): Unit = {
+    println("Hello, world.")
+  }
 }
