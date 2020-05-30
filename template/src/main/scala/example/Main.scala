@@ -1,7 +1,7 @@
 package example
 
 object Main {
-  def main(): Unit = {
+  def main(args: Array[String]): Unit = {
     println("Hello, world.")
   }
 }
