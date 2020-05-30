@@ -1,10 +1,7 @@
 package example
 
 import com.typesafe.config.{Config, ConfigFactory}
-import net.ceedubs.ficus.Ficus._
-import net.ceedubs.ficus.readers.ArbitraryTypeReader._
-
-case class ApiServer(host: String, port: Int)
+import net.ceedubs.ficus.Ficus.{toFicusConfig}
 
 object ApplicationConf {
 
@@ -12,7 +9,7 @@ object ApplicationConf {
     .withFallback(ConfigFactory.load("default"))
     .withFallback(ConfigFactory.load())
 
-  lazy val apiServer = config.as[ApiServer]("api-server")
+  lazy val apiServer = config.as[ApiServer]("api-server")(ApiServer.apiServerValueReader)
 
   def baz(): Int = {
     println("BAZ!")
