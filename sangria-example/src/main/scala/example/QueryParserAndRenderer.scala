@@ -41,4 +41,19 @@ object QueryParserAndRenderer extends App {
     case Failure(error) =>
       println(s"Syntax error: ${error.getMessage}")
   }
+
+  def isSyntacticallyCorrect(): Unit = {
+    import sangria.macros._
+
+    val queryAst: Document =
+      graphql"""
+      {
+        name
+        friends {
+          id
+          name
+        }
+      }
+      """
+  }
 }
