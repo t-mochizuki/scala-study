@@ -9,4 +9,9 @@ lazy val hello = taskKey[Unit]("An example task")
 lazy val baseSettings = Seq(name := "example", hello := { println("Hello!") })
 
 lazy val root = (project in file("."))
-  .settings(baseSettings)
+  .settings(
+    baseSettings,
+    libraryDependencies ++= Seq(
+      "org.scalatest" %% "scalatest" % "3.0.8" % Test
+    )
+  )
