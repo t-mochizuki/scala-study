@@ -1,13 +1,13 @@
 package example
 
-import org.scalatest.{FlatSpec, MustMatchers}
+import org.scalatest.{DiagrammedAssertions, FlatSpec}
 
-class MainSpec extends FlatSpec with MustMatchers {
+class MainSpec extends FlatSpec with DiagrammedAssertions {
   "main" should "be succeeded" in {
     Main.main(Array.empty)
   }
 
   "hello" should "returns \"Hello, world.\"" in {
-    Main.hello mustBe "Hello, world."
+    assert(Main.hello === "Hello, world!")
   }
 }
