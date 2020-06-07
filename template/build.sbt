@@ -4,17 +4,18 @@ ThisBuild / version := "0.1.0"
 
 wartremoverErrors in (Compile, compile) ++= Warts.unsafe
 
-flywayUrl := "jdbc:postgresql://localhost:5433/sandbox"
-flywayUser := "user"
-flywayPassword := "password"
-flywayUrl in Test := "jdbc:postgresql://localhost:5434/sandbox"
-flywayUser in Test := "user"
-flywayPassword in Test := "password"
-flywayLocations := Seq("db/migration")
-
 lazy val hello = taskKey[Unit]("An example task")
 
-lazy val baseSettings = Seq(name := "example", hello := { println("Hello!") })
+lazy val baseSettings = Seq(
+  name := "example",
+  flywayUrl := "jdbc:postgresql://localhost:5433/sandbox",
+  flywayUser := "user",
+  flywayPassword := "password",
+  flywayUrl in Test := "jdbc:postgresql://localhost:5434/sandbox",
+  flywayUser in Test := "user",
+  flywayPassword in Test := "password",
+  flywayLocations := Seq("db/migration"),
+  hello := { println("Hello!") })
 
 lazy val root = (project in file("."))
   .settings(
