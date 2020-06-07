@@ -1,0 +1,25 @@
+version: '3.1'
+services:
+  postgresql:
+    image: postgres:11.6
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sandbox
+
+  postgresql-test:
+    image: postgres:11.6
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sandbox
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
