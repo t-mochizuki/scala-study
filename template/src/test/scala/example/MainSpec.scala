@@ -7,7 +7,7 @@ class MainSpec extends FlatSpec with DiagrammedAssertions {
     Main.main(Array.empty)
   }
 
-  "hello" should "returns \"Hello, world.\"" in {
+  "hello" should "return \"Hello, world.\"" in {
     assert(Main.hello === "Hello, world!")
   }
 }
