@@ -8,12 +8,12 @@ import scalikejdbc.config.DBs
 import scalikejdbc.interpolation.SQLSyntax
 import scalikejdbc.DBSession
 
-class PersonDaoSpec extends fixture.FlatSpec with DiagrammedAssertions with AutoRollback {
-  DBs.setup('test)
-
-  override def db(): DB = {
-    NamedDB('test).toDB()
-  }
+class PersonDaoSpec
+    extends fixture.FlatSpec
+    with DiagrammedAssertions
+    with AutoRollback
+    with settings.DBSettings {
+  override def db: DB = NamedDB('test).toDB
 
   val zonedDateTime = ZonedDateTime.of(2020, 6, 8, 0, 0, 0, 0, ZoneId.systemDefault)
 

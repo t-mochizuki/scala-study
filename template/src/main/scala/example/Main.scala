@@ -14,7 +14,9 @@ object Main {
     @SuppressWarnings(Array("org.wartremover.warts.Var"))
     var bar = 42
 
-    DBs.setup()
+    DBs.loadGlobalSettings()
+
+    DBs.setup('default)
 
     DB readOnly { implicit session =>
       PersonDao.findList()
