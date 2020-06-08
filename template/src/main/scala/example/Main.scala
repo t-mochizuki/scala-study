@@ -1,10 +1,11 @@
 package example
 
 import dao.PersonDao
+import logging.Logger
 import scalikejdbc._
 import scalikejdbc.config.DBs
 
-object Main {
+object Main extends Logger {
   def hello = "Hello, world."
 
   def main(args: Array[String]): Unit = {
