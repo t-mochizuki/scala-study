@@ -21,7 +21,7 @@ trait Listener { self: Logger =>
         Map(
           "sql"     -> sql,
           "params"  -> params.mkString("[", ",", "]"),
-          "message" -> (e.getMessage + "\n" + e.getStackTrace.mkString("\n"))
+          "message" -> (e.getMessage + "\n" + e.getStackTrace.take(7).mkString("\n"))
         ).toString
       )
     }
