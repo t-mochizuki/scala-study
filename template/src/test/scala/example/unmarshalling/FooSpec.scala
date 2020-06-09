@@ -1,21 +1,18 @@
 package example.unmarshalling
 
-import akka.actor.ActorSystem
-import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
-import org.scalatest.{DiagrammedAssertions, FlatSpec}
+import akka.http.scaladsl.testkit.ScalatestRouteTest
+import akka.http.scaladsl.unmarshalling.Unmarshal
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._
+import org.scalatest.{DiagrammedAssertions, FlatSpec}
 
 object FooSpec {
   final case class Foo(bar: String)
 }
 
-final class FooSpec extends FlatSpec with DiagrammedAssertions {
+final class FooSpec extends FlatSpec with DiagrammedAssertions with ScalatestRouteTest {
   import FooSpec._
-
-  implicit val system = ActorSystem()
-  implicit val ec = system.dispatcher
 
   val entity = HttpEntity(ContentTypes.`application/json`, "{\"bar\":\"baz\"}")
 
