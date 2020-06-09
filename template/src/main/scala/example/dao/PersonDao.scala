@@ -1,10 +1,17 @@
 package example.dao
 
 import example.logging.Logger
+import io.circe.{Decoder, Encoder}
+import io.circe.generic.semiauto._
 import java.time.ZonedDateTime
 import scalikejdbc._
 
 final case class PersonEntity(name: String, age: Int, createdAt: ZonedDateTime)
+
+object PersonEntity {
+  implicit val encoder: Encoder[PersonEntity] = deriveEncoder
+  implicit val decoder: Decoder[PersonEntity] = deriveDecoder
+}
 
 object PersonDao extends SQLSyntaxSupport[PersonEntity] with Logger {
   override val tableName = "persons"

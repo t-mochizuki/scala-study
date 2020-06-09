@@ -41,6 +41,7 @@ lazy val baseSettings = Seq(
 val scalikejdbcVersion = "3.4.2"
 val akkaHttpVersion = "10.1.12"
 val akkaVersion = "2.6.6"
+val circeVersion = "0.12.3"
 
 lazy val root = (project in file("."))
   .settings(
@@ -48,6 +49,10 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-stream" % akkaVersion,
       "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
+      "de.heikoseeberger" %% "akka-http-circe" % "1.32.0",
+      "io.circe" %% "circe-core" % circeVersion,
+      "io.circe" %% "circe-generic" % circeVersion,
+      "io.circe" %% "circe-parser" % circeVersion,
       "org.scalatest" %% "scalatest" % "3.0.8" % Test,
       "org.postgresql" % "postgresql" % "42.2.13",
       "org.scalikejdbc" %% "scalikejdbc" % scalikejdbcVersion,
