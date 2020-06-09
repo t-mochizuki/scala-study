@@ -4,7 +4,7 @@ import example.logging.Logger
 import java.time.ZonedDateTime
 import scalikejdbc._
 
-case class PersonEntity(name: String, age: Int, createdAt: ZonedDateTime)
+final case class PersonEntity(name: String, age: Int, createdAt: ZonedDateTime)
 
 object PersonDao extends SQLSyntaxSupport[PersonEntity] with Logger {
   override val tableName                                         = "persons"
