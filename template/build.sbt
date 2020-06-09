@@ -4,7 +4,9 @@ ThisBuild / version := "0.1.0"
 
 wartremoverErrors in (Compile, compile) ++= Warts.unsafe
 
-scalacOptions ++= Seq("-deprecation")
+scalacOptions ++= Seq(
+  "-deprecation",
+  "-Ywarn-unused")
 
 lazy val hello = taskKey[Unit]("An example task")
 

@@ -4,8 +4,6 @@ import java.time.{ZonedDateTime, ZoneId}
 import org.scalatest.{fixture, DiagrammedAssertions}
 import scalikejdbc.scalatest.AutoRollback
 import scalikejdbc.{applyUpdate, autoNamedValues, insert, DB, NamedDB}
-import scalikejdbc.config.DBs
-import scalikejdbc.interpolation.SQLSyntax
 import scalikejdbc.DBSession
 
 class PersonDaoSpec

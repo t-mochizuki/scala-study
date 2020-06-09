@@ -1,9 +1,8 @@
 package example
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.client.RequestBuilding.Get
-import akka.http.scaladsl.model.{HttpMethods, HttpRequest, Uri}
+import akka.http.scaladsl.model.{MediaTypes, HttpMethods, HttpRequest, Uri}
+import akka.http.scaladsl.model.headers
 import dao.PersonDao
 import http.Client
 import logging.Logger
@@ -17,12 +16,6 @@ object Main extends Logger {
   def hello = "Hello, world."
 
   def main(args: Array[String]): Unit = {
-    @SuppressWarnings(Array("org.wartremover.warts.Null"))
-    val foo = null
-
-    @SuppressWarnings(Array("org.wartremover.warts.Var"))
-    var bar = 42
-
     DBs.loadGlobalSettings()
 
     DBs.setup(Symbol("default"))
@@ -35,14 +28,19 @@ object Main extends Logger {
 
     implicit val executionContext: ExecutionContext = system.dispatcher
 
-    val httpRequest = HttpRequest(method = HttpMethods.GET, uri = Uri("http://akka.io"))
+    val acceptHeader = headers.Accept(MediaTypes.`application/json`)
+
+    val httpRequest = HttpRequest(
+      method = HttpMethods.GET,
+      uri = Uri(args(0)),
+      headers = Seq(acceptHeader))
 
     Client
       .send(httpRequest)
       .onComplete[Any] {
         case Success(res) => {
           println(res)
-          val entity = res.entity.discardBytes()
+          println(res.entity.discardBytes())
           system.terminate()
         }
         case Failure(e)   => logger.error(e.getMessage())
