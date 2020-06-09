@@ -5,7 +5,23 @@ ThisBuild / version := "0.1.0"
 
 wartremoverErrors in (Compile, compile) ++= Warts.unsafe
 
-scalacOptions ++= Seq("-deprecation", "-Ywarn-unused")
+scalacOptions ++= (
+  "-deprecation" ::
+    "-unchecked" ::
+    "-language:existentials" ::
+    "-language:higherKinds" ::
+    "-language:implicitConversions" ::
+    "-Ywarn-unused" ::
+    Nil
+)
+
+val unusedWarnings = (
+  "-Ywarn-unused" ::
+    Nil
+)
+
+scalacOptions in (Compile, console) ~= (_.filterNot(unusedWarnings.toSet))
+scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 
 lazy val hello = taskKey[Unit]("An example task")
 
