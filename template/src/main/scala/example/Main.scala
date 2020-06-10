@@ -4,7 +4,7 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.model.headers._
 import akka.http.scaladsl.model.{MediaTypes, HttpHeader, HttpMethods, HttpRequest, Uri}
 import dao.PersonDao
-import http.Client
+import http.{Client, Server}
 import logging.Logger
 import scalikejdbc._
 import scalikejdbc.config.DBs
@@ -24,6 +24,9 @@ object Main extends Logger {
     DB readOnly { implicit session =>
       PersonDao.findList()
     }
+
+    val server = new Server
+    server.start()
 
     implicit val system: ActorSystem = ActorSystem()
     implicit val executionContext: ExecutionContext = system.dispatcher
