@@ -44,9 +44,10 @@ val scalikejdbcVersion = "3.4.2"
 val akkaHttpVersion = "10.1.12"
 val akkaVersion = "2.6.6"
 val circeVersion = "0.12.3"
+val postgresqlVersion = "42.2.13"
 
 lazy val root = (project in file("."))
-  .settings(baseSettings, libraryDependencies ++= Seq("org.postgresql" % "postgresql" % "42.2.13"))
+  .settings(baseSettings, libraryDependencies ++= Seq("org.postgresql" % "postgresql" % postgresqlVersion))
   .enablePlugins(FlywayPlugin)
   .aggregate(base)
 
@@ -63,7 +64,7 @@ lazy val base = (project in file("base"))
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
       "org.scalatest" %% "scalatest" % "3.0.8" % Test,
-      "org.postgresql" % "postgresql" % "42.2.13",
+      "org.postgresql" % "postgresql" % postgresqlVersion,
       "org.scalikejdbc" %% "scalikejdbc" % scalikejdbcVersion,
       "org.scalikejdbc" %% "scalikejdbc-config" % scalikejdbcVersion,
       "org.scalikejdbc" %% "scalikejdbc-syntax-support-macro" % scalikejdbcVersion,
