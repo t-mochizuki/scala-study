@@ -23,6 +23,8 @@ val unusedWarnings = (
 scalacOptions in (Compile, console) ~= (_.filterNot(unusedWarnings.toSet))
 scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 
+javaOptions in Test += "-Dconfig.resources=test.conf"
+
 lazy val hello = taskKey[Unit]("An example task")
 
 lazy val baseSettings = Seq(

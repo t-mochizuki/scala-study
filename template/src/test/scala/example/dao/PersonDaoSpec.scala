@@ -11,7 +11,6 @@ class PersonDaoSpec
     with DiagrammedAssertions
     with AutoRollback
     with settings.DBSettings {
-  override def db: DB = NamedDB(Symbol("test")).toDB
 
   val zonedDateTime = ZonedDateTime.of(2020, 6, 8, 0, 0, 0, 0, ZoneId.systemDefault)
 
