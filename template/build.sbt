@@ -46,8 +46,13 @@ val akkaVersion = "2.6.6"
 val circeVersion = "0.12.3"
 
 lazy val root = (project in file("."))
+  .settings(baseSettings, libraryDependencies ++= Seq("org.postgresql" % "postgresql" % "42.2.13"))
+  .enablePlugins(FlywayPlugin)
+  .aggregate(base)
+
+lazy val base = (project in file("base"))
   .settings(
-    baseSettings,
+    name := "base",
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-stream" % akkaVersion,
       "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
@@ -66,4 +71,3 @@ lazy val root = (project in file("."))
       "ch.qos.logback" % "logback-classic" % "1.2.3"
     )
   )
-  .enablePlugins(FlywayPlugin)
