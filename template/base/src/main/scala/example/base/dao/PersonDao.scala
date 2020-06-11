@@ -1,6 +1,6 @@
-package example.dao
+package example.base.dao
 
-import example.logging.Logger
+import example.base.logging.Logger
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto._
 import java.time.ZonedDateTime

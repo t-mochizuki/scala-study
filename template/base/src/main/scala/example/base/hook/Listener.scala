@@ -1,6 +1,6 @@
-package example.hook
+package example.base.hook
 
-import example.logging.Logger
+import example.base.logging.Logger
 import scalikejdbc.GlobalSettings
 
 trait Listener { self: Logger =>

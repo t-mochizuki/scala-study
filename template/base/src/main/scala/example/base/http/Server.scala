@@ -1,4 +1,4 @@
-package example.http
+package example.base.http
 
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.server.{HttpApp, Route}

@@ -1,4 +1,4 @@
-package example.http
+package example.base.http
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http

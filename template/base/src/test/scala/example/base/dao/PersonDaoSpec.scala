@@ -1,4 +1,4 @@
-package example.dao
+package example.base.dao
 
 import java.time.{ZonedDateTime, ZoneId}
 import org.scalatest.{fixture, DiagrammedAssertions}

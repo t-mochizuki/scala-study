@@ -1,4 +1,4 @@
-package example.unmarshalling
+package example.base.unmarshalling
 
 import akka.actor.ActorSystem
 import akka.testkit.TestKit

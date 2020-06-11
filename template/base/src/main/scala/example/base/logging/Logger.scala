@@ -1,6 +1,6 @@
-package example.logging
+package example.base.logging
 
-import example.hook.Listener
+import example.base.hook.Listener
 import org.slf4j.LoggerFactory
 
 trait Logger extends Listener {
