@@ -51,6 +51,7 @@ val logbackVersion = "1.2.3"
 lazy val base = project
   .disablePlugins(AssemblyPlugin)
   .settings(
+    fork in Test := true,
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-stream" % akkaVersion,
       "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
