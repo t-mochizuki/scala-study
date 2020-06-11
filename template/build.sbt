@@ -25,10 +25,7 @@ scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 
 javaOptions in Test += "-Dconfig.resources=test.conf"
 
-lazy val hello = taskKey[Unit]("An example task")
-
-lazy val rootSettings = Seq(
-  name := "example",
+lazy val flywaySettings = Seq(
   flywayUrl := "jdbc:postgresql://localhost:5433/sandbox",
   flywayUser := "user",
   flywayPassword := "password",
@@ -36,8 +33,7 @@ lazy val rootSettings = Seq(
   flywayUrl in Test := "jdbc:postgresql://localhost:5434/sandbox",
   flywayUser in Test := "user",
   flywayPassword in Test := "password",
-  flywayLocations in Test := Seq("filesystem:db/migration"),
-  hello := { println("Hello!") }
+  flywayLocations in Test := Seq("filesystem:db/migration")
 )
 
 val scalikejdbcVersion = "3.4.2"
@@ -77,7 +73,7 @@ lazy val root = project
   .in(file("."))
   .disablePlugins(AssemblyPlugin)
   .settings(
-    rootSettings,
+    flywaySettings,
     libraryDependencies ++= Seq("org.postgresql" % "postgresql" % postgresqlVersion)
   )
   .enablePlugins(FlywayPlugin)
