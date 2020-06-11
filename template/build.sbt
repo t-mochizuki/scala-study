@@ -49,7 +49,6 @@ val slf4jVersion = "1.7.30"
 val logbackVersion = "1.2.3"
 
 lazy val base = project
-  .in(file("base"))
   .disablePlugins(AssemblyPlugin)
   .settings(
     libraryDependencies ++= Seq(
