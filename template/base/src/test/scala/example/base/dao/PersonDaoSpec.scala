@@ -6,11 +6,13 @@ import scalikejdbc.scalatest.AutoRollback
 import scalikejdbc.{applyUpdate, autoNamedValues, insert, DB, NamedDB}
 import scalikejdbc.DBSession
 
-class PersonDaoSpec
+final class PersonDaoSpec
     extends fixture.FlatSpec
     with DiagrammedAssertions
     with AutoRollback
     with settings.DBSettings {
+
+  behavior of "PersonDao"
 
   val zonedDateTime = ZonedDateTime.of(2020, 6, 8, 0, 0, 0, 0, ZoneId.systemDefault)
 

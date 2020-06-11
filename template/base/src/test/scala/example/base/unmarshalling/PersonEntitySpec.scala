@@ -11,7 +11,7 @@ import example.base.dao.PersonEntity
 import io.circe.generic.auto._
 import org.scalatest.{BeforeAndAfterAll, DiagrammedAssertions, FlatSpecLike}
 
-class PersonEntitySpec
+final class PersonEntitySpec
     extends TestKit(ActorSystem())
     with FlatSpecLike
     with DiagrammedAssertions

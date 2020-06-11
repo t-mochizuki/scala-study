@@ -17,6 +17,7 @@ final class FooSpec
     with FlatSpecLike
     with DiagrammedAssertions
     with BeforeAndAfterAll {
+
   import FooSpec._
 
   implicit val ec = system.dispatcher
