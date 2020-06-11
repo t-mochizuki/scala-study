@@ -3,6 +3,8 @@ Test / fork := true
 ThisBuild / scalaVersion := "2.13.2"
 ThisBuild / version := "0.1.0"
 
+lazy val hello = taskKey[Unit]("An example task")
+
 wartremoverErrors in (Compile, compile) ++= Warts.unsafe
 
 scalacOptions ++= (
@@ -48,6 +50,7 @@ lazy val base = project
   .in(file("base"))
   .disablePlugins(AssemblyPlugin)
   .settings(
+    hello := { println(s"Hello, ${baseDirectory.value}!") },
     fork in Test := true,
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-stream" % akkaVersion,
@@ -74,6 +77,7 @@ lazy val root = project
   .in(file("."))
   .disablePlugins(AssemblyPlugin)
   .settings(
+    hello := { println(s"Hello, ${baseDirectory.value}!") },
     flywaySettings,
     libraryDependencies ++= Seq("org.postgresql" % "postgresql" % postgresqlVersion)
   )
