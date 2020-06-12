@@ -47,7 +47,7 @@ val logbackVersion = "1.2.3"
 
 lazy val base = project
   .in(file("base"))
-  .disablePlugins(AssemblyPlugin, JacocoPlugin)
+  .disablePlugins(AssemblyPlugin)
   .settings(
     hello := { println(s"Hello, ${baseDirectory.value}!") },
     Test / fork := true,
@@ -74,7 +74,6 @@ lazy val base = project
 
 lazy val fooClient = project
   .in(file("foo-client"))
-  .disablePlugins(JacocoPlugin)
   .settings(
     hello := { println(s"Hello, ${baseDirectory.value}!") },
     Test / fork := true
@@ -83,7 +82,6 @@ lazy val fooClient = project
 
 lazy val barServer = project
   .in(file("bar-server"))
-  .disablePlugins(JacocoPlugin)
   .settings(
     hello := { println(s"Hello, ${baseDirectory.value}!") },
     Test / fork := true
@@ -92,7 +90,7 @@ lazy val barServer = project
 
 lazy val root = project
   .in(file("."))
-  .disablePlugins(AssemblyPlugin, JacocoPlugin)
+  .disablePlugins(AssemblyPlugin)
   .settings(
     hello := { println(s"Hello, ${baseDirectory.value}!") },
     Test / fork := true,
