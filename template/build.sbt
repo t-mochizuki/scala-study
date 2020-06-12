@@ -1,3 +1,5 @@
+import Dependencies._
+
 Global / onChangedBuildSource := ReloadOnSourceChanges
 ThisBuild / scalaVersion := "2.13.2"
 ThisBuild / version := "0.1.0"
@@ -37,39 +39,13 @@ lazy val flywaySettings = Seq(
   Test / flywayLocations := Seq("filesystem:db/migration")
 )
 
-val scalikejdbcVersion = "3.4.2"
-val akkaHttpVersion = "10.1.12"
-val akkaVersion = "2.6.6"
-val circeVersion = "0.12.3"
-val postgresqlVersion = "42.2.13"
-val slf4jVersion = "1.7.30"
-val logbackVersion = "1.2.3"
-
 lazy val base = project
   .in(file("base"))
   .disablePlugins(AssemblyPlugin)
   .settings(
     hello := { println(s"Hello, ${baseDirectory.value}!") },
     Test / fork := true,
-    libraryDependencies ++= Seq(
-      "com.typesafe.akka" %% "akka-stream" % akkaVersion,
-      "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
-      "com.typesafe.akka" %% "akka-testkit" % akkaVersion % Test,
-      "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
-      "de.heikoseeberger" %% "akka-http-circe" % "1.32.0",
-      "io.circe" %% "circe-core" % circeVersion,
-      "io.circe" %% "circe-generic" % circeVersion,
-      "io.circe" %% "circe-parser" % circeVersion,
-      "org.scalatest" %% "scalatest" % "3.0.8" % Test,
-      "org.postgresql" % "postgresql" % postgresqlVersion,
-      "org.scalikejdbc" %% "scalikejdbc" % scalikejdbcVersion,
-      "org.scalikejdbc" %% "scalikejdbc-config" % scalikejdbcVersion,
-      "org.scalikejdbc" %% "scalikejdbc-syntax-support-macro" % scalikejdbcVersion,
-      "org.scalikejdbc" %% "scalikejdbc-test" % scalikejdbcVersion % Test,
-      "org.slf4j" % "slf4j-api" % slf4jVersion,
-      "ch.qos.logback" % "logback-core" % logbackVersion,
-      "ch.qos.logback" % "logback-classic" % logbackVersion
-    )
+    libraryDependencies ++= baseDeps
   )
 
 lazy val fooClient = project
@@ -95,7 +71,7 @@ lazy val root = project
     hello := { println(s"Hello, ${baseDirectory.value}!") },
     Test / fork := true,
     flywaySettings,
-    libraryDependencies ++= Seq("org.postgresql" % "postgresql" % postgresqlVersion)
+    libraryDependencies ++= rootDeps
   )
   .enablePlugins(FlywayPlugin)
   .aggregate(base, barServer, fooClient)
