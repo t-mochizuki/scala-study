@@ -10,6 +10,8 @@ import example.base.http.{Client, Server}
 import example.base.logging.Logger
 import io.circe.generic.auto._
 
+import scala.concurrent.Await
+import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext
 import scala.util.{Failure, Success}
 
@@ -30,6 +32,7 @@ object Main extends App with Logger {
         Unmarshal(res.entity).to[PersonEntity].foreach(x => println(PersonEntity.encoder(x)))
         println(res.entity.discardBytes())
         system.terminate()
+        Await.ready(system.whenTerminated, 10.seconds)
       }
       case Failure(e) => logger.error(e.getMessage())
     }
