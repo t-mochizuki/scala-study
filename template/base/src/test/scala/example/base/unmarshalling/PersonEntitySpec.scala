@@ -1,6 +1,6 @@
 package example.base.unmarshalling
 
-import java.time.{ZonedDateTime, ZoneId}
+import java.time.{ZoneId, ZonedDateTime}
 
 import akka.actor.ActorSystem
 import akka.testkit.TestKit

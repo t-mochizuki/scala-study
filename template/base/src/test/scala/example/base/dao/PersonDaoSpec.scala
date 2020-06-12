@@ -1,6 +1,6 @@
 package example.base.dao
 
-import java.time.{ZonedDateTime, ZoneId}
+import java.time.{ZoneId, ZonedDateTime}
 import org.scalatest.{fixture, DiagrammedAssertions}
 import scalikejdbc.scalatest.AutoRollback
 import scalikejdbc.{applyUpdate, autoNamedValues, insert, DB, NamedDB}
