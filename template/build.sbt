@@ -1,5 +1,4 @@
 Global / onChangedBuildSource := ReloadOnSourceChanges
-Test / fork := true
 ThisBuild / scalaVersion := "2.13.2"
 ThisBuild / version := "0.1.0"
 
@@ -32,10 +31,10 @@ lazy val flywaySettings = Seq(
   flywayUser := "user",
   flywayPassword := "password",
   flywayLocations := Seq("filesystem:db/migration"),
-  flywayUrl in Test := "jdbc:postgresql://localhost:5434/sandbox",
-  flywayUser in Test := "user",
-  flywayPassword in Test := "password",
-  flywayLocations in Test := Seq("filesystem:db/migration")
+  Test / flywayUrl := "jdbc:postgresql://localhost:5434/sandbox",
+  Test / flywayUser := "user",
+  Test / flywayPassword := "password",
+  Test / flywayLocations := Seq("filesystem:db/migration")
 )
 
 val scalikejdbcVersion = "3.4.2"
@@ -51,7 +50,7 @@ lazy val base = project
   .disablePlugins(AssemblyPlugin)
   .settings(
     hello := { println(s"Hello, ${baseDirectory.value}!") },
-    fork in Test := true,
+    Test / fork := true,
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-stream" % akkaVersion,
       "com.typesafe.akka" %% "akka-slf4j" % akkaVersion,
@@ -78,6 +77,7 @@ lazy val root = project
   .disablePlugins(AssemblyPlugin)
   .settings(
     hello := { println(s"Hello, ${baseDirectory.value}!") },
+    Test / fork := true,
     flywaySettings,
     libraryDependencies ++= Seq("org.postgresql" % "postgresql" % postgresqlVersion)
   )
