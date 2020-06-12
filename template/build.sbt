@@ -47,7 +47,7 @@ val logbackVersion = "1.2.3"
 
 lazy val base = project
   .in(file("base"))
-  .disablePlugins(AssemblyPlugin)
+  .disablePlugins(AssemblyPlugin, JacocoPlugin)
   .settings(
     hello := { println(s"Hello, ${baseDirectory.value}!") },
     Test / fork := true,
@@ -74,7 +74,7 @@ lazy val base = project
 
 lazy val root = project
   .in(file("."))
-  .disablePlugins(AssemblyPlugin)
+  .disablePlugins(AssemblyPlugin, JacocoPlugin)
   .settings(
     hello := { println(s"Hello, ${baseDirectory.value}!") },
     Test / fork := true,
