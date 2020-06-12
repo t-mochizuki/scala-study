@@ -12,7 +12,7 @@ object Dependencies {
 
   val akkaHttpCirce = "de.heikoseeberger" %% "akka-http-circe" % "1.32.0"
 
-  val circeVersion = "0.12.3"
+  val circeVersion = "0.13.0"
   val circeCore = "io.circe" %% "circe-core" % circeVersion
   val circeGeneric = "io.circe" %% "circe-generic" % circeVersion
   val circeParser = "io.circe" %% "circe-parser" % circeVersion
