@@ -2,13 +2,21 @@ package example.base.http
 
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.server.{HttpApp, Route}
+import example.base.dao.PersonEntity
+import java.time.{ZoneId, ZonedDateTime}
 
 class Server extends HttpApp {
+
+  val zonedDateTime = ZonedDateTime.of(2020, 6, 8, 0, 0, 0, 0, ZoneId.systemDefault)
+  val mother = PersonEntity("keiko", 23, zonedDateTime)
+  val input = PersonEntity.encoder(mother).toString
 
   override def routes: Route =
     path("hello") {
       get {
-        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Say hello to akka-http</h1>"))
+        complete(
+          HttpEntity(ContentTypes.`application/json`, input)
+        )
       }
     }
 

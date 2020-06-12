@@ -4,7 +4,7 @@ ThisBuild / version := "0.1.0"
 
 lazy val hello = taskKey[Unit]("An example task")
 
-wartremoverErrors in (Compile, compile) ++= Warts.unsafe
+Compile / compile / wartremoverErrors ++= Warts.unsafe
 
 scalacOptions ++= (
   "-deprecation" ::
@@ -72,6 +72,24 @@ lazy val base = project
     )
   )
 
+lazy val fooClient = project
+  .in(file("foo-client"))
+  .disablePlugins(JacocoPlugin)
+  .settings(
+    hello := { println(s"Hello, ${baseDirectory.value}!") },
+    Test / fork := true
+  )
+  .dependsOn(base % "compile->compile;test->test")
+
+lazy val barServer = project
+  .in(file("bar-server"))
+  .disablePlugins(JacocoPlugin)
+  .settings(
+    hello := { println(s"Hello, ${baseDirectory.value}!") },
+    Test / fork := true
+  )
+  .dependsOn(base % "compile->compile;test->test")
+
 lazy val root = project
   .in(file("."))
   .disablePlugins(AssemblyPlugin, JacocoPlugin)
@@ -82,4 +100,4 @@ lazy val root = project
     libraryDependencies ++= Seq("org.postgresql" % "postgresql" % postgresqlVersion)
   )
   .enablePlugins(FlywayPlugin)
-  .aggregate(base)
+  .aggregate(base, barServer, fooClient)
