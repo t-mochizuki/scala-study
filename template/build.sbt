@@ -53,6 +53,24 @@ lazy val barServer = project
   )
   .dependsOn(base % "compile->compile;test->test")
 
+lazy val app = project
+  .in(file("app"))
+  .disablePlugins(AssemblyPlugin)
+  .settings(
+    hello := { println(s"Hello, ${baseDirectory.value}!") },
+    Test / fork := true,
+    flywayUrl := "jdbc:mysql://localhost:3307/sandbox",
+    flywayUser := "user",
+    flywayPassword := "password",
+    flywayLocations := Seq("filesystem:db/migration"),
+    Test / flywayUrl := "jdbc:mysql://localhost:3308/sandbox",
+    Test / flywayUser := "user",
+    Test / flywayPassword := "password",
+    Test / flywayLocations := Seq("filesystem:db/migration"),
+    libraryDependencies ++= appDeps
+  )
+  .enablePlugins(FlywayPlugin)
+
 lazy val root = project
   .in(file("."))
   .disablePlugins(AssemblyPlugin)

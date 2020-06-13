@@ -22,6 +22,9 @@ object Dependencies {
   val postgresqlVersion = "42.2.13"
   val postgresql = "org.postgresql" % "postgresql" % postgresqlVersion
 
+  val mysqlVersion = "8.0.20"
+  val mysql = "mysql" % "mysql-connector-java" % mysqlVersion
+
   val scalikejdbcVersion = "3.4.2"
   val scalikejdbc = "org.scalikejdbc" %% "scalikejdbc" % scalikejdbcVersion
   val scalikejdbcConfig = "org.scalikejdbc" %% "scalikejdbc-config" % scalikejdbcVersion
@@ -52,6 +55,10 @@ object Dependencies {
     slf4jApi,
     logbackCore,
     logbackClassic
+  )
+
+  val appDeps = Seq(
+    mysql
   )
 
   val rootDeps = Seq(
