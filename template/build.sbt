@@ -28,17 +28,6 @@ scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 
 Test / javaOptions += "-Dconfig.resources=test.conf"
 
-lazy val flywaySettings = Seq(
-  flywayUrl := "jdbc:postgresql://localhost:5433/sandbox",
-  flywayUser := "user",
-  flywayPassword := "password",
-  flywayLocations := Seq("filesystem:db/migration"),
-  Test / flywayUrl := "jdbc:postgresql://localhost:5434/sandbox",
-  Test / flywayUser := "user",
-  Test / flywayPassword := "password",
-  Test / flywayLocations := Seq("filesystem:db/migration")
-)
-
 lazy val base = project
   .in(file("base"))
   .disablePlugins(AssemblyPlugin)
@@ -70,7 +59,14 @@ lazy val root = project
   .settings(
     hello := { println(s"Hello, ${baseDirectory.value}!") },
     Test / fork := true,
-    flywaySettings,
+    flywayUrl := "jdbc:postgresql://localhost:5433/sandbox",
+    flywayUser := "user",
+    flywayPassword := "password",
+    flywayLocations := Seq("filesystem:db/migration"),
+    Test / flywayUrl := "jdbc:postgresql://localhost:5434/sandbox",
+    Test / flywayUser := "user",
+    Test / flywayPassword := "password",
+    Test / flywayLocations := Seq("filesystem:db/migration"),
     libraryDependencies ++= rootDeps
   )
   .enablePlugins(FlywayPlugin)
