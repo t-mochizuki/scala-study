@@ -26,14 +26,13 @@ val unusedWarnings = (
 scalacOptions in (Compile, console) ~= (_.filterNot(unusedWarnings.toSet))
 scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 
-Test / javaOptions += "-Dconfig.resources=test.conf"
-
 lazy val base = project
   .in(file("base"))
   .disablePlugins(AssemblyPlugin)
   .settings(
     hello := { println(s"Hello, ${baseDirectory.value}!") },
     Test / fork := true,
+    Test / javaOptions ++= Seq("-Dconfig.resource=test.conf"),
     libraryDependencies ++= baseDeps
   )
 

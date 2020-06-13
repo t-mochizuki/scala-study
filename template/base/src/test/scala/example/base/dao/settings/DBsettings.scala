@@ -13,7 +13,8 @@ object DBSettings {
   def initialize(): Unit =
     this.synchronized {
       if (isInitialized) return
-      DBs.setupAll()
+      DBs.loadGlobalSettings()
+      DBs.setup(Symbol("default"))
       isInitialized = true
     }
 
