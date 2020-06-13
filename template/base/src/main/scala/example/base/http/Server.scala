@@ -17,7 +17,8 @@ class Server extends HttpApp with Logger {
   val mother = PersonEntity("keiko", 23, zonedDateTime)
   val input = PersonEntity.encoder(mother).toString
 
-  override def routes: Route =
+  override def routes: Route = {
+    // format: off
     path("hello") {
       get {
         complete(
@@ -32,12 +33,15 @@ class Server extends HttpApp with Logger {
             val uri = "http://localhost:8181/hello"
             val acceptHeader: HttpHeader = Accept(MediaTypes.`application/json`)
             val headers: Seq[HttpHeader] = Seq(acceptHeader)
-            val httpRequest = HttpRequest(method = HttpMethods.GET, uri = Uri(uri), headers = headers)
+            val httpRequest =
+              HttpRequest(method = HttpMethods.GET, uri = Uri(uri), headers = headers)
             complete(Client.send(httpRequest))
           }
         }
       }
     }
+    // format: on
+  }
 
   def start(): Unit = {
     startServer(host = "localhost", port = 8181)

@@ -1,9 +1,11 @@
 package example.base.dao
 
-import example.base.logging.Logger
-import io.circe.{Decoder, Encoder}
-import io.circe.generic.semiauto._
 import java.time.ZonedDateTime
+
+import example.base.hook.Listener
+import example.base.logging.Logger
+import io.circe.generic.semiauto._
+import io.circe.{Decoder, Encoder}
 import scalikejdbc._
 
 final case class PersonEntity(name: String, age: Int, createdAt: ZonedDateTime)
@@ -13,7 +15,7 @@ object PersonEntity {
   implicit val decoder: Decoder[PersonEntity] = deriveDecoder
 }
 
-object PersonDao extends SQLSyntaxSupport[PersonEntity] with Logger {
+object PersonDao extends SQLSyntaxSupport[PersonEntity] with Logger with Listener {
   override val tableName = "persons"
   def apply(rs: WrappedResultSet) =
     PersonEntity(rs.string("name"), rs.int("age"), rs.zonedDateTime("created_at"))

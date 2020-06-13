@@ -1,7 +1,7 @@
 package example.foo_client
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.model.headers._
+import akka.http.scaladsl.model.headers.Accept
 import akka.http.scaladsl.model.{HttpHeader, HttpMethods, HttpRequest, MediaTypes, Uri}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
