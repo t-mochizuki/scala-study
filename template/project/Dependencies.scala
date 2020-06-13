@@ -28,7 +28,8 @@ object Dependencies {
   val scalikejdbcVersion = "3.4.2"
   val scalikejdbc = "org.scalikejdbc" %% "scalikejdbc" % scalikejdbcVersion
   val scalikejdbcConfig = "org.scalikejdbc" %% "scalikejdbc-config" % scalikejdbcVersion
-  val scalikejdbcSyntaxSupportMacro = "org.scalikejdbc" %% "scalikejdbc-syntax-support-macro" % scalikejdbcVersion
+  val scalikejdbcSyntaxSupportMacro =
+    "org.scalikejdbc" %% "scalikejdbc-syntax-support-macro" % scalikejdbcVersion
   val scalikejdbcTest = "org.scalikejdbc" %% "scalikejdbc-test" % scalikejdbcVersion % Test
 
   val slf4jVersion = "1.7.30"

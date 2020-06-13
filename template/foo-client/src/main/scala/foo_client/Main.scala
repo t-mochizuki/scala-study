@@ -31,7 +31,7 @@ object Main extends App with Logger {
       case Success(res) => {
         Unmarshal(res.entity).to[PersonEntity].foreach(x => println(PersonEntity.encoder(x)))
         println(res.entity.discardBytes())
-        system.terminate()
+        println(system.terminate())
         Await.ready(system.whenTerminated, 10.seconds)
       }
       case Failure(e) => logger.error(e.getMessage())

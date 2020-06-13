@@ -3,7 +3,7 @@ package example.base.dao
 import java.time.{ZoneId, ZonedDateTime}
 import org.scalatest.{fixture, DiagrammedAssertions}
 import scalikejdbc.scalatest.AutoRollback
-import scalikejdbc.{applyUpdate, autoNamedValues, insert, DB, NamedDB}
+import scalikejdbc.{applyUpdate, autoNamedValues, insert}
 import scalikejdbc.DBSession
 
 final class PersonDaoSpec
