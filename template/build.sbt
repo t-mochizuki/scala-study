@@ -6,8 +6,6 @@ ThisBuild / version := "0.1.0"
 
 lazy val hello = taskKey[Unit]("An example task")
 
-Compile / compile / wartremoverErrors ++= Warts.unsafe
-
 scalacOptions ++= (
   "-deprecation" ::
     "-unchecked" ::
@@ -31,6 +29,7 @@ lazy val base = project
   .disablePlugins(AssemblyPlugin)
   .settings(
     hello := { println(s"Hello, ${baseDirectory.value}!") },
+    Compile / compile / wartremoverErrors ++= Warts.unsafe,
     Test / fork := true,
     Test / javaOptions ++= Seq("-Dconfig.resource=test.conf"),
     libraryDependencies ++= baseDeps
