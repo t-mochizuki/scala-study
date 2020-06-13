@@ -2,7 +2,6 @@ package example.base.http
 
 import java.time.{ZoneId, ZonedDateTime}
 
-import akka.actor.ActorSystem
 import akka.http.scaladsl.model.headers.Accept
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.model.{HttpHeader, HttpMethods, HttpRequest, MediaTypes, Uri}

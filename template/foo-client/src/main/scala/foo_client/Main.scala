@@ -5,8 +5,8 @@ import akka.http.scaladsl.model.headers.Accept
 import akka.http.scaladsl.model.{HttpHeader, HttpMethods, HttpRequest, MediaTypes, Uri}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
-import example.base.dao.{PersonDao, PersonEntity}
-import example.base.http.{Client, Server}
+import example.base.dao.PersonEntity
+import example.base.http.Client
 import example.base.logging.Logger
 import io.circe.generic.auto._
 
