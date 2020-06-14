@@ -16,6 +16,7 @@ lazy val commonSettings = Seq(
   Compile / compile / wartremoverErrors ++= Warts.unsafe,
   Test / fork := true,
   Test / javaOptions ++= Seq("-Dconfig.resource=test.conf"),
+  Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oD"),
   scalacOptions ++= (
     "-deprecation" ::
       "-unchecked" ::
