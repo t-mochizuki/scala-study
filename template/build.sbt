@@ -6,14 +6,12 @@ ThisBuild / version := "0.1.0"
 
 lazy val hello = taskKey[Unit]("An example task")
 
-val unusedWarnings = (
-  "-Ywarn-unused" ::
-    Nil
-)
+val unusedWarnings = Set("-Ywarn-unused")
 
 lazy val commonSettings = Seq(
   hello := { println(s"Hello, ${baseDirectory.value}!") },
   Compile / compile / wartremoverErrors ++= Warts.unsafe,
+  assembly / test := {},
   Test / fork := true,
   Test / javaOptions ++= Seq("-Dconfig.resource=test.conf"),
   Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oD"),
@@ -26,9 +24,22 @@ lazy val commonSettings = Seq(
       "-Ywarn-unused" ::
       Nil
   ),
-  scalacOptions in (Compile, console) ~= (_.filterNot(unusedWarnings.toSet)),
+  scalacOptions in (Compile, console) ~= (_.filterNot(unusedWarnings)),
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 )
+
+
+val assemblySetting = assembly / assemblyMergeStrategy := {
+  case PathList("javax", "servlet", xs @ _*) => MergeStrategy.first
+  case PathList(ps @ _*) if ps.last endsWith ".class" => MergeStrategy.first
+  case PathList(ps @ _*) if ps.last endsWith ".bnd" => MergeStrategy.first
+  case PathList(ps @ _*) if ps.last endsWith ".html" => MergeStrategy.first
+  case "application.conf" => MergeStrategy.concat
+  case "unwanted.txt" => MergeStrategy.discard
+  case x =>
+    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    oldStrategy(x)
+}
 
 lazy val base = project
   .in(file("base"))
@@ -40,6 +51,7 @@ lazy val base = project
 
 lazy val fooClient = project
   .in(file("foo-client"))
+  .settings(assemblySetting)
   .settings(
     commonSettings
   )
@@ -47,6 +59,7 @@ lazy val fooClient = project
 
 lazy val barServer = project
   .in(file("bar-server"))
+  .settings(assemblySetting)
   .settings(
     commonSettings
   )

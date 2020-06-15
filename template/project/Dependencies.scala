@@ -20,7 +20,7 @@ object Dependencies {
   val scalatest = "org.scalatest" %% "scalatest" % "3.0.8" % Test
 
   val postgresqlVersion = "42.2.13"
-  val postgresql = "org.postgresql" % "postgresql" % postgresqlVersion
+  val postgresql = ("org.postgresql" % "postgresql" % postgresqlVersion)
 
   val mysqlVersion = "8.0.20"
   val mysql = "mysql" % "mysql-connector-java" % mysqlVersion
