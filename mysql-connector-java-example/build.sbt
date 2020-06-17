@@ -40,11 +40,11 @@ lazy val root = project
   .disablePlugins(AssemblyPlugin)
   .settings(
     commonSettings,
-    flywayUrl := "jdbc:mysql://localhost:3317/sandbox",
+    flywayUrl := "jdbc:mysql://localhost:3317/sandbox?useSSL=false",
     flywayUser := "user",
     flywayPassword := "password",
     flywayLocations := Seq("filesystem:db/migration"),
-    Test / flywayUrl := "jdbc:mysql://localhost:3318/sandbox",
+    Test / flywayUrl := "jdbc:mysql://localhost:3318/sandbox?useSSL=false",
     Test / flywayUser := "user",
     Test / flywayPassword := "password",
     Test / flywayLocations := Seq("filesystem:db/migration"),

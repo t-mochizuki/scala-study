@@ -4,7 +4,7 @@ object Dependencies {
 
   val scalatest = "org.scalatest" %% "scalatest" % "3.0.8" % Test
 
-  val mysqlVersion = "5.1.29"
+  val mysqlVersion = "8.0.12"
   val mysql = "mysql" % "mysql-connector-java" % mysqlVersion
 
   val scalikejdbcVersion = "3.4.2"
