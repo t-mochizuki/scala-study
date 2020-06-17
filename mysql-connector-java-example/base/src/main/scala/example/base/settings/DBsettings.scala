@@ -8,21 +8,19 @@ trait DBSettings {
 
 object DBSettings {
 
-  @SuppressWarnings(Array("org.wartremover.warts.Var"))
-  private var isInitialized = false
-
   @SuppressWarnings(Array("org.wartremover.warts.NonUnitStatements", "org.wartremover.warts.Return"))
   def initialize(): Unit =
     this.synchronized {
-      if (isInitialized) return
+      if (ConnectionPool.isInitialized(Symbol("default"))) return
       DBs.loadGlobalSettings()
-      DBs.readJDBCSettings(Symbol("default"))
+      val JDBCSettings(url, user, password, _) = DBs.readJDBCSettings(Symbol("default"))
+      val settings = ConnectionPoolSettings()
       ConnectionPool.singleton(
-        DBs.config.getString("db.default.url"),
-        DBs.config.getString("db.default.user"),
-        DBs.config.getString("db.default.password")
+        url,
+        user,
+        password,
+        settings
       )
-      isInitialized = true
     }
 
 }
