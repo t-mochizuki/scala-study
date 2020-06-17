@@ -8,8 +8,10 @@ trait DBSettings {
 
 object DBSettings {
 
+  @SuppressWarnings(Array("org.wartremover.warts.Var"))
   private var isInitialized = false
 
+  @SuppressWarnings(Array("org.wartremover.warts.NonUnitStatements", "org.wartremover.warts.Return"))
   def initialize(): Unit =
     this.synchronized {
       if (isInitialized) return
