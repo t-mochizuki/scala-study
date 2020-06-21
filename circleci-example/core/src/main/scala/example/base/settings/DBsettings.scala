@@ -1,4 +1,4 @@
-package example.base.dao.settings
+package example.core.dao.settings
 
 import scalikejdbc._, config._
 

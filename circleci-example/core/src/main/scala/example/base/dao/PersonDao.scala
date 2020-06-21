@@ -1,4 +1,4 @@
-package example.base.dao
+package example.core.dao
 
 import java.time.ZonedDateTime
 

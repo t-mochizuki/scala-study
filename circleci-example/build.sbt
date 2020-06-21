@@ -1,4 +1,9 @@
 import Dependencies._
+import com.typesafe.config.ConfigFactory
+
+val testConfig = ConfigFactory
+  .parseFile(new File("core/src/main/resources/test.conf"))
+  .resolve()
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 ThisBuild / scalaVersion := "2.13.2"
@@ -27,12 +32,12 @@ lazy val commonSettings = Seq(
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 )
 
-lazy val base = project
-  .in(file("base"))
+lazy val core = project
+  .in(file("core"))
   .disablePlugins(AssemblyPlugin)
   .settings(
     commonSettings,
-    libraryDependencies ++= baseDeps
+    libraryDependencies ++= coreDeps
   )
 
 lazy val root = project
@@ -44,11 +49,11 @@ lazy val root = project
     flywayUser := "user",
     flywayPassword := "password",
     flywayLocations := Seq("filesystem:db/migration"),
-    Test / flywayUrl := "jdbc:mysql://localhost:3318/sandbox?useSSL=false",
+    Test / flywayUrl := testConfig.getString("db.default.url"),
     Test / flywayUser := "user",
     Test / flywayPassword := "password",
     Test / flywayLocations := Seq("filesystem:db/migration"),
     libraryDependencies ++= rootDeps
   )
   .enablePlugins(FlywayPlugin)
-  .aggregate(base)
+  .aggregate(core)
