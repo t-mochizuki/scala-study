@@ -21,9 +21,6 @@ object Dependencies {
   val logbackCore = "ch.qos.logback" % "logback-core" % logbackVersion
   val logbackClassic = "ch.qos.logback" % "logback-classic" % logbackVersion
 
-  val configVersion = "1.4.0"
-  val config = "com.typesafe" % "config" % configVersion
-
   val coreDeps = Seq(
     scalatest,
     mysql,
