@@ -28,7 +28,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - key-{{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "build.sbt" }}
+            - key-{{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "circleci-example/build.sbt" }}
             - key-{{ .Environment.CACHE_VERSION }}-dependencies-
 
       - run: cd circleci-example; cat /dev/null | sbt test:compile
@@ -38,6 +38,6 @@ jobs:
       - save_cache:
           paths:
             - ~/.m2
-          key: key-{{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "build.sbt" }}
+          key: key-{{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "circleci-example/build.sbt" }}
 
       - run: cd circleci-example; cat /dev/null | sbt test:test
