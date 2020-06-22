@@ -6,7 +6,7 @@ import scalikejdbc._
 
 final case class PersonEntity(id: Int, name: String, createdAt: ZonedDateTime)
 
-object PersonDao extends SQLSyntaxSupport[PersonEntity] {
+class PersonDao() extends SQLSyntaxSupport[PersonEntity] {
   override val tableName = "persons"
 
   val p = this.syntax("p")
