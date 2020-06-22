@@ -8,8 +8,15 @@ final case class PersonEntity(name: String, age: Int, createdAt: ZonedDateTime)
 
 object PersonDao extends SQLSyntaxSupport[PersonEntity] {
   override val tableName = "persons"
-  def apply(rs: WrappedResultSet) =
-    PersonEntity(rs.string("name"), rs.int("age"), rs.zonedDateTime("created_at"))
-  def findList()(implicit session: DBSession): Seq[PersonEntity] =
-    sql"select * from persons".map(rs => apply(rs)).list.apply()
+
+  val p = this.syntax("p")
+
+  def apply(rs: WrappedResultSet) = autoConstruct(rs, p.resultName)
+
+  def findList(limit: Int, page: Int)(implicit session: DBSession): Seq[PersonEntity] =
+    withSQL {
+      select.from(this as p)
+        .limit(limit)
+        .offset(page)
+    }.map(apply).list.apply()
 }

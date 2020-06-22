@@ -23,6 +23,6 @@ final class PersonDaoSpec
   }
 
   "findList" should "return a list of person entity" in { implicit session =>
-    assert(PersonDao.findList() === Seq(persion))
+    assert(PersonDao.findList(10, 0) === Seq(persion))
   }
 }
