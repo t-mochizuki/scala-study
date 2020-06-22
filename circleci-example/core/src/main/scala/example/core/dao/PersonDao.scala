@@ -15,10 +15,18 @@ object PersonDao extends SQLSyntaxSupport[PersonEntity] {
 
   def create(person: PersonEntity)(implicit session: DBSession): Int =
     applyUpdate {
-      insertInto(PersonDao).values(
+      insertInto(this).values(
         person.id,
         person.name,
         person.createdAt)
+    }
+
+  def update(person: PersonEntity)(implicit session: DBSession): Int =
+    applyUpdate {
+      QueryDSL.update(this as p).set(
+        p.id -> person.id,
+        p.name -> person.name,
+        p.createdAt -> person.createdAt)
     }
 
   def findList(limit: Int, page: Int)(implicit session: DBSession): Seq[PersonEntity] =

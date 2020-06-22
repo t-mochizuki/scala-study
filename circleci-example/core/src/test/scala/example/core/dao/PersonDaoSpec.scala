@@ -28,6 +28,12 @@ final class PersonDaoSpec
     assert(PersonDao.findList(10, 0) === Seq(person, keiko))
   }
 
+  "update" should "update a record of person entity" in { implicit session =>
+    val keiko = PersonEntity(2, "keiko", zonedDateTime.plusYears(1))
+    PersonDao.update(keiko)
+    assert(PersonDao.findList(10, 0) === Seq(keiko))
+  }
+
   "findList" should "return a list of person entity" in { implicit session =>
     assert(PersonDao.findList(10, 0) === Seq(person))
   }
