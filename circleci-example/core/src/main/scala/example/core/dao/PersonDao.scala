@@ -13,6 +13,14 @@ object PersonDao extends SQLSyntaxSupport[PersonEntity] {
 
   def apply(rs: WrappedResultSet) = autoConstruct(rs, p.resultName)
 
+  def create(person: PersonEntity)(implicit session: DBSession): Int =
+    applyUpdate {
+      insertInto(PersonDao).values(
+        person.id,
+        person.name,
+        person.createdAt)
+    }
+
   def findList(limit: Int, page: Int)(implicit session: DBSession): Seq[PersonEntity] =
     withSQL {
       select.from(this as p)

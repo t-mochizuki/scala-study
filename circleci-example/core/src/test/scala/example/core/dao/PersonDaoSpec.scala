@@ -16,13 +16,19 @@ final class PersonDaoSpec
 
   val zonedDateTime = ZonedDateTime.of(2020, 6, 8, 0, 0, 0, 0, ZoneId.systemDefault)
 
-  val persion = PersonEntity(1, "manabu", zonedDateTime)
+  val person = PersonEntity(1, "manabu", zonedDateTime)
 
   override def fixture(implicit session: DBSession): Unit = {
-    applyUpdate(insert.into(PersonDao).namedValues(autoNamedValues(persion, PersonDao.column)))
+    applyUpdate(insert.into(PersonDao).namedValues(autoNamedValues(person, PersonDao.column)))
+  }
+
+  "create" should "insert a record of person entity" in { implicit session =>
+    val keiko = PersonEntity(2, "keiko", zonedDateTime)
+    PersonDao.create(keiko)
+    assert(PersonDao.findList(10, 0) === Seq(person, keiko))
   }
 
   "findList" should "return a list of person entity" in { implicit session =>
-    assert(PersonDao.findList(10, 0) === Seq(persion))
+    assert(PersonDao.findList(10, 0) === Seq(person))
   }
 }
