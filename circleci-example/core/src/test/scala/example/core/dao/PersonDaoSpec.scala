@@ -16,7 +16,7 @@ final class PersonDaoSpec
 
   val zonedDateTime = ZonedDateTime.of(2020, 6, 8, 0, 0, 0, 0, ZoneId.systemDefault)
 
-  val persion = PersonEntity(1, "manabu", 26, zonedDateTime)
+  val persion = PersonEntity(1, "manabu", zonedDateTime)
 
   override def fixture(implicit session: DBSession): Unit = {
     applyUpdate(insert.into(PersonDao).namedValues(autoNamedValues(persion, PersonDao.column)))

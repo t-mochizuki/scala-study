@@ -4,7 +4,7 @@ import java.time.ZonedDateTime
 
 import scalikejdbc._
 
-final case class PersonEntity(id: Int, name: String, age: Int, createdAt: ZonedDateTime)
+final case class PersonEntity(id: Int, name: String, createdAt: ZonedDateTime)
 
 object PersonDao extends SQLSyntaxSupport[PersonEntity] {
   override val tableName = "persons"
