@@ -34,6 +34,11 @@ final class PersonDaoSpec
     assert(PersonDao.findList(10, 0) === Seq(keiko))
   }
 
+  "delete" should "delete a record of person entity" in { implicit session =>
+    PersonDao.delete(person.id)
+    assert(PersonDao.findList(10, 0) === Nil)
+  }
+
   "findList" should "return a list of person entity" in { implicit session =>
     assert(PersonDao.findList(10, 0) === Seq(person))
   }

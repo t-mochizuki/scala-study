@@ -29,6 +29,11 @@ object PersonDao extends SQLSyntaxSupport[PersonEntity] {
         p.createdAt -> person.createdAt)
     }
 
+  def delete(id: Int)(implicit session: DBSession): Boolean =
+    applyExecute {
+      QueryDSL.delete.from(this as p).where.eq(p.id, id)
+    }
+
   def findList(limit: Int, page: Int)(implicit session: DBSession): Seq[PersonEntity] =
     withSQL {
       select.from(this as p)
