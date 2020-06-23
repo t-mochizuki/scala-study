@@ -16,4 +16,7 @@ class PersonHandler(personService: PersonService) {
 
   def findList(limit: Int, offset: Int)(implicit session: DBSession): Seq[PersonEntity] =
     personService.findList(limit, offset)
+
+  def findById(id: Int)(implicit session: DBSession): Option[PersonEntity] =
+    personService.findById(id)
 }

@@ -38,4 +38,10 @@ class PersonDao() extends SQLSyntaxSupport[PersonEntity] {
         .limit(limit)
         .offset(page)
     }.map(apply).list.apply()
+
+  def findById(id: Int)(implicit session: DBSession): Option[PersonEntity] =
+    withSQL {
+      select.from(this as p)
+        .where.eq(p.id, id)
+    }.map(apply).single.apply()
 }

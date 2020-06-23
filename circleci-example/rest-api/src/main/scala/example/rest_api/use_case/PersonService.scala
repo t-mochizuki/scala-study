@@ -16,4 +16,7 @@ class PersonService(personDao: PersonDao) {
 
   def findList(limit: Int, offset: Int)(implicit session: DBSession): Seq[PersonEntity] =
     personDao.findList(limit, offset)
+
+  def findById(id: Int)(implicit session: DBSession): Option[PersonEntity] =
+    personDao.findById(id)
 }
