@@ -18,12 +18,14 @@ object Main extends HttpApp with App with PersonComponent with DBSettings {
       // format: off
       path("persons") {
         get {
-          DB.readOnly { implicit session =>
-            val list = personHandler.findList(10, 0)
+          parameter("limit".as[Int], "offset".as[Int]) { (limit, offset) =>
+            DB.readOnly { implicit session =>
+              val list = personHandler.findList(limit, offset)
 
-            complete(
-              HttpEntity(ContentTypes.`application/json`, list.asJson.toString)
-            )
+              complete(
+                HttpEntity(ContentTypes.`application/json`, list.asJson.toString)
+              )
+            }
           }
         } ~
         post {
