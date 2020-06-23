@@ -1,4 +1,4 @@
-package example.core.dao
+package example.rest_api.boundary.db
 
 import java.time.ZonedDateTime
 

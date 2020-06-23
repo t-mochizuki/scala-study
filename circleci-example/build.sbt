@@ -32,6 +32,13 @@ lazy val commonSettings = Seq(
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 )
 
+lazy val restApi = project
+  .in(file("rest-api"))
+  .settings(
+    commonSettings
+  )
+  .dependsOn(core % "compile->compile;test->test")
+
 lazy val core = project
   .in(file("core"))
   .disablePlugins(AssemblyPlugin)
@@ -56,4 +63,4 @@ lazy val root = project
     libraryDependencies ++= rootDeps
   )
   .enablePlugins(FlywayPlugin)
-  .aggregate(core)
+  .aggregate(core, restApi)

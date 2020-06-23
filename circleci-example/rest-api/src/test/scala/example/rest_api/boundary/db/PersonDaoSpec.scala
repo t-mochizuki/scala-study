@@ -1,6 +1,8 @@
-package example.core.dao
+package example.rest_api.boundary.db
 
 import java.time.{ZoneId, ZonedDateTime}
+
+import example.core.settings.DBSettings
 import org.scalatest.{fixture, DiagrammedAssertions}
 import scalikejdbc.scalatest.AutoRollback
 import scalikejdbc.{applyUpdate, autoNamedValues, insert}
@@ -10,7 +12,7 @@ final class PersonDaoSpec
     extends fixture.FlatSpec
     with DiagrammedAssertions
     with AutoRollback
-    with settings.DBSettings {
+    with DBSettings {
 
   behavior of "PersonDao"
 
