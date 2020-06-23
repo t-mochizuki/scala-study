@@ -2,6 +2,12 @@ import sbt._
 
 object Dependencies {
 
+  val akkaVersion = "2.6.6"
+  val akkaStream = "com.typesafe.akka" %% "akka-stream" % akkaVersion
+
+  val akkaHttpVersion = "10.1.12"
+  val akkaHttp = "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
+
   val scalatest = "org.scalatest" %% "scalatest" % "3.0.8" % Test
 
   val mysqlVersion = "8.0.12"
@@ -20,6 +26,11 @@ object Dependencies {
   val logbackVersion = "1.2.3"
   val logbackCore = "ch.qos.logback" % "logback-core" % logbackVersion
   val logbackClassic = "ch.qos.logback" % "logback-classic" % logbackVersion
+
+  val restApiDeps = Seq(
+    akkaStream,
+    akkaHttp
+  )
 
   val coreDeps = Seq(
     scalatest,

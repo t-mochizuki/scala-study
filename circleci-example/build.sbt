@@ -35,7 +35,8 @@ lazy val commonSettings = Seq(
 lazy val restApi = project
   .in(file("rest-api"))
   .settings(
-    commonSettings
+    commonSettings,
+    libraryDependencies ++= restApiDeps
   )
   .dependsOn(core % "compile->compile;test->test")
 
