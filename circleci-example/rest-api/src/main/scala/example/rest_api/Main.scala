@@ -13,54 +13,55 @@ import scalikejdbc.DB
 
 object Main extends HttpApp with App with PersonComponent with DBSettings {
 
-  override def routes: Route = Route.seal {
-    // format: off
-    path("persons") {
-      get {
-        DB.readOnly { implicit session =>
-          val list = personHandler.findList(10, 0)
+  override def routes: Route =
+    Route.seal {
+      // format: off
+      path("persons") {
+        get {
+          DB.readOnly { implicit session =>
+            val list = personHandler.findList(10, 0)
 
-          complete(
-            HttpEntity(ContentTypes.`application/json`, list.asJson.toString)
-          )
-        }
-      } ~
-      post {
-        entity(as[PersonEntity]) { person =>
-          DB.localTx { implicit session =>
-            val _ = personHandler.create(person)
+            complete(
+              HttpEntity(ContentTypes.`application/json`, list.asJson.toString)
+            )
           }
-          complete(OK)
+        } ~
+        post {
+          entity(as[PersonEntity]) { person =>
+            DB.localTx { implicit session =>
+              val _ = personHandler.create(person)
+            }
+            complete(OK)
+          }
+        } ~
+        put {
+          entity(as[PersonEntity]) { person =>
+            DB.localTx { implicit session =>
+              val _ = personHandler.update(person)
+            }
+            complete(OK)
+          }
         }
       } ~
-      put {
-        entity(as[PersonEntity]) { person =>
+      path("persons" / IntNumber) { id =>
+        get {
+          DB.readOnly { implicit session =>
+            val option = personHandler.findById(id)
+
+            complete(
+              HttpEntity(ContentTypes.`application/json`, option.asJson.toString)
+            )
+          }
+        } ~
+        delete {
           DB.localTx { implicit session =>
-            val _ = personHandler.update(person)
+            val _ = personHandler.delete(id)
           }
           complete(OK)
         }
       }
-    } ~
-    path("persons" / IntNumber) { id =>
-      get {
-        DB.readOnly { implicit session =>
-          val option = personHandler.findById(id)
-
-          complete(
-            HttpEntity(ContentTypes.`application/json`, option.asJson.toString)
-          )
-        }
-      } ~
-      delete {
-        DB.localTx { implicit session =>
-          val _ = personHandler.delete(id)
-        }
-        complete(OK)
-      }
+      // format: on
     }
-    // format: on
-  }
 
   startServer(host = "localhost", port = 8181)
 
