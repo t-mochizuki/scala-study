@@ -22,6 +22,17 @@ object Main extends HttpApp with App with PersonComponent with DBSettings {
           )
         }
       }
+    } ~
+    path("persons" / IntNumber) { id =>
+      get {
+        DB.readOnly { implicit session =>
+          val option = personHandler.findById(id)
+
+          complete(
+            HttpEntity(ContentTypes.`application/json`, option.asJson.toString)
+          )
+        }
+      }
     }
     // format: on
   }
