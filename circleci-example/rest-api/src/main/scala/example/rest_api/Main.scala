@@ -3,8 +3,10 @@ package example.rest_api
 import akka.http.scaladsl.server.{HttpApp, Route}
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.model.StatusCodes.OK
+import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import example.core.settings.DBSettings
 import example.rest_api.component.PersonComponent
+import example.rest_api.entity.PersonEntity
 import io.circe.syntax._
 
 import scalikejdbc.DB
@@ -22,6 +24,14 @@ object Main extends HttpApp with App with PersonComponent with DBSettings {
             HttpEntity(ContentTypes.`application/json`, list.asJson.toString)
           )
         }
+      } ~
+      post {
+        entity(as[PersonEntity]) { person =>
+          DB.localTx { implicit session =>
+            val _ = personHandler.create(person)
+          }
+          complete(OK)
+        }
       }
     } ~
     path("persons" / IntNumber) { id =>
@@ -37,9 +47,8 @@ object Main extends HttpApp with App with PersonComponent with DBSettings {
       delete {
         DB.localTx { implicit session =>
           val _ = personHandler.delete(id)
-
-          complete(OK)
         }
+        complete(OK)
       }
     }
     // format: on
