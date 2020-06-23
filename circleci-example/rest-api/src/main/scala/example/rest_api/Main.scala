@@ -32,6 +32,14 @@ object Main extends HttpApp with App with PersonComponent with DBSettings {
           }
           complete(OK)
         }
+      } ~
+      put {
+        entity(as[PersonEntity]) { person =>
+          DB.localTx { implicit session =>
+            val _ = personHandler.update(person)
+          }
+          complete(OK)
+        }
       }
     } ~
     path("persons" / IntNumber) { id =>

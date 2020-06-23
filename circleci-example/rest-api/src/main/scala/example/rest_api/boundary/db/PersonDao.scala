@@ -22,9 +22,8 @@ class PersonDao() extends SQLSyntaxSupport[PersonEntity] {
   def update(person: PersonEntity)(implicit session: DBSession): Int =
     applyUpdate {
       QueryDSL.update(this as p).set(
-        p.id -> person.id,
         p.name -> person.name,
-        p.createdAt -> person.createdAt)
+        p.createdAt -> person.createdAt).where.eq(p.id, person.id)
     }
 
   def delete(id: Int)(implicit session: DBSession): Boolean =
