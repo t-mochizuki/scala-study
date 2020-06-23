@@ -1,10 +1,8 @@
 package example.rest_api.boundary.db
 
-import java.time.ZonedDateTime
+import example.rest_api.entity.PersonEntity
 
 import scalikejdbc._
-
-final case class PersonEntity(id: Int, name: String, createdAt: ZonedDateTime)
 
 class PersonDao() extends SQLSyntaxSupport[PersonEntity] {
   override val tableName = "persons"
