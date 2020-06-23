@@ -30,7 +30,7 @@ final class PersonDaoSpec
   "create" should "insert a record of person entity" in { implicit session =>
     val keiko = PersonEntity(2, "keiko", zonedDateTime)
     personDao.create(keiko)
-    assert(personDao.findList(10, 0) === Seq(person, keiko))
+    assert(personDao.findList(10, 0).map(_.copy(id = 1)) === Seq(person, keiko).map(_.copy(id = 1)))
   }
 
   "update" should "update a record of person entity" in { implicit session =>

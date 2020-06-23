@@ -11,7 +11,9 @@ class PersonDao() extends SQLSyntaxSupport[PersonEntity] {
 
   def create(person: PersonEntity)(implicit session: DBSession): Int =
     applyUpdate {
-      insertInto(this).values(person.id, person.name, person.createdAt)
+      insertInto(this)
+        .columns(this.column.name, this.column.createdAt)
+        .values(person.name, person.createdAt)
     }
 
   def update(person: PersonEntity)(implicit session: DBSession): Int =
