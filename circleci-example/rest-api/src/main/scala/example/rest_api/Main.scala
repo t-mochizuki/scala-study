@@ -2,6 +2,7 @@ package example.rest_api
 
 import akka.http.scaladsl.server.{HttpApp, Route}
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
+import akka.http.scaladsl.model.StatusCodes.OK
 import example.core.settings.DBSettings
 import example.rest_api.component.PersonComponent
 import io.circe.syntax._
@@ -31,6 +32,13 @@ object Main extends HttpApp with App with PersonComponent with DBSettings {
           complete(
             HttpEntity(ContentTypes.`application/json`, option.asJson.toString)
           )
+        }
+      } ~
+      delete {
+        DB.localTx { implicit session =>
+          val _ = personHandler.delete(id)
+
+          complete(OK)
         }
       }
     }
