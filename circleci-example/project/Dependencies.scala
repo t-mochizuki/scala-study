@@ -8,6 +8,11 @@ object Dependencies {
   val akkaHttpVersion = "10.1.12"
   val akkaHttp = "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
 
+  val circeVersion = "0.13.0"
+  val circeCore = "io.circe" %% "circe-core" % circeVersion
+  val circeGeneric = "io.circe" %% "circe-generic" % circeVersion
+  val circeParser = "io.circe" %% "circe-parser" % circeVersion
+
   val scalatest = "org.scalatest" %% "scalatest" % "3.0.8" % Test
 
   val mysqlVersion = "8.0.12"
@@ -29,7 +34,10 @@ object Dependencies {
 
   val restApiDeps = Seq(
     akkaStream,
-    akkaHttp
+    akkaHttp,
+    circeCore,
+    circeGeneric,
+    circeParser
   )
 
   val coreDeps = Seq(
