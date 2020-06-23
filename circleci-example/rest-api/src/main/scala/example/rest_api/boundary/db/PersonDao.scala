@@ -9,7 +9,7 @@ class PersonDao() extends SQLSyntaxSupport[PersonEntity] {
 
   val p = this.syntax("p")
 
-  def apply(rs: WrappedResultSet) = autoConstruct(rs, p.resultName)
+  def apply(rn: ResultName[PersonEntity])(rs: WrappedResultSet) = autoConstruct(rs, rn)
 
   def create(person: PersonEntity)(implicit session: DBSession): Int =
     applyUpdate {
@@ -36,11 +36,11 @@ class PersonDao() extends SQLSyntaxSupport[PersonEntity] {
       select.from(this as p)
         .limit(limit)
         .offset(page)
-    }.map(apply).list.apply()
+    }.map(apply(p.resultName)).list.apply()
 
   def findById(id: Int)(implicit session: DBSession): Option[PersonEntity] =
     withSQL {
       select.from(this as p)
         .where.eq(p.id, id)
-    }.map(apply).single.apply()
+    }.map(apply(p.resultName)).single.apply()
 }

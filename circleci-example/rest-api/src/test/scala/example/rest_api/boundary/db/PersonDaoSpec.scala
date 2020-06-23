@@ -3,6 +3,7 @@ package example.rest_api.boundary.db
 import java.time.{ZoneId, ZonedDateTime}
 
 import example.core.settings.DBSettings
+import example.rest_api.entity.PersonEntity
 import org.scalatest.{fixture, DiagrammedAssertions}
 import scalikejdbc.scalatest.AutoRollback
 import scalikejdbc.{applyUpdate, autoNamedValues, insert}
@@ -33,7 +34,7 @@ final class PersonDaoSpec
   }
 
   "update" should "update a record of person entity" in { implicit session =>
-    val keiko = PersonEntity(2, "keiko", zonedDateTime.plusYears(1))
+    val keiko = PersonEntity(1, "keiko", zonedDateTime.plusYears(1))
     personDao.update(keiko)
     assert(personDao.findList(10, 0) === Seq(keiko))
   }
