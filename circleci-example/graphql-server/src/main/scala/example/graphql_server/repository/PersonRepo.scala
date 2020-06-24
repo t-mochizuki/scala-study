@@ -1,6 +1,6 @@
 package example.graphql_server.repository
 
-import java.time.{ZonedDateTime, ZoneId}
+import java.time.{ZoneId, ZonedDateTime}
 import example.rest_api.entity.PersonEntity
 
 class PersonRepo {
@@ -9,8 +9,8 @@ class PersonRepo {
 
   private val people = (
     PersonEntity(1, "manabu", zonedDateTime) ::
-    PersonEntity(2, "keiko", zonedDateTime.minusDays(123)) ::
-    Nil
+      PersonEntity(2, "keiko", zonedDateTime.minusDays(123)) ::
+      Nil
   )
 
   def person(id: Int): Option[PersonEntity] =
