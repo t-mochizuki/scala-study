@@ -1,4 +1,4 @@
-package example.rest_api.route
+package example.rest_api.routing
 
 import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.server.Route

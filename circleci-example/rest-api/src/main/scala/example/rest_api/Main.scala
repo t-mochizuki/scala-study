@@ -2,7 +2,7 @@ package example.rest_api
 
 import akka.http.scaladsl.server.{HttpApp, Route}
 import example.core.settings.DBSettings
-import example.rest_api.route.PersonRoute
+import example.rest_api.routing.PersonRoute
 
 object Main extends HttpApp with App with DBSettings with PersonRoute {
 
