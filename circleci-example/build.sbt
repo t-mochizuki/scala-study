@@ -32,6 +32,14 @@ lazy val commonSettings = Seq(
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 )
 
+lazy val graphQLServer = project
+  .in(file("graphql-server"))
+  .settings(
+    commonSettings,
+    libraryDependencies ++= graphQLServerDeps
+  )
+  .dependsOn(restApi % "compile->compile;test->test")
+
 lazy val restApi = project
   .in(file("rest-api"))
   .settings(
@@ -64,4 +72,4 @@ lazy val root = project
     libraryDependencies ++= rootDeps
   )
   .enablePlugins(FlywayPlugin)
-  .aggregate(core, restApi)
+  .aggregate(core, restApi, graphQLServer)

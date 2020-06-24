@@ -34,6 +34,16 @@ object Dependencies {
   val logbackCore = "ch.qos.logback" % "logback-core" % logbackVersion
   val logbackClassic = "ch.qos.logback" % "logback-classic" % logbackVersion
 
+  val sangriaVersion = "2.0.0"
+  val sangria = "org.sangria-graphql" %% "sangria" % sangriaVersion
+
+  val sangriaCirce = "org.sangria-graphql" %% "sangria-circe" % "1.3.0"
+
+  val graphQLServerDeps = Seq(
+    sangria,
+    sangriaCirce
+  )
+
   val restApiDeps = Seq(
     akkaStream,
     akkaHttp,
