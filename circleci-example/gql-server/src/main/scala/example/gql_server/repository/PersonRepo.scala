@@ -27,4 +27,9 @@ class PersonRepo(personDao: PersonDao) {
       personDao.update(person)
     }
 
+  def deletePerson(id: Int): Boolean =
+    DB.localTx { implicit session =>
+      personDao.delete(id)
+    }
+
 }
