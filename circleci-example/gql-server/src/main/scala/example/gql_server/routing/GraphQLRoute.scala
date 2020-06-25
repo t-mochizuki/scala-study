@@ -1,38 +1,35 @@
 package example.gql_server.routing
 
-import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.model.StatusCodes._
+import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.server.Route
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
-import example.rest_api.boundary.db.PersonDao
 import example.gql_server.repository.PersonRepo
-import example.gql_server.schema.PersonSchema
+import example.gql_server.schema.GraphQLSchema
+import example.rest_api.boundary.db.PersonDao
 import io.circe.Json
 import sangria.ast.Document
 import sangria.execution.{ErrorWithResolver, Executor, QueryAnalysisError}
-import sangria.parser.{QueryParser, SyntaxError}
 import sangria.marshalling.InputUnmarshaller.emptyMapVars
-import sangria.schema._
 import sangria.marshalling.circe._
+import sangria.parser.{QueryParser, SyntaxError}
 import scala.util.control.NonFatal
 import scala.util.{Failure, Success}
 
-trait GraphQLRoute extends PersonSchema with Directives {
+trait GraphQLRoute extends GraphQLSchema with Directives {
 
   def graphQLRoute(): Route =
-      path("graphql") {
-        post {
-          entity(as[String]) { query =>
-            val operationName = None
-            QueryParser.parse(query) match {
-              case Success(ast) => executeGraphQL(ast, operationName, Json.obj(), false)
-              case Failure(error) => complete(BadRequest, formatError(error))
-            }
+    path("graphql") {
+      post {
+        entity(as[String]) { query =>
+          val operationName = None
+          QueryParser.parse(query) match {
+            case Success(ast) => executeGraphQL(ast, operationName, Json.obj(), false)
+            case Failure(error) => complete(BadRequest, formatError(error))
           }
         }
       }
-
-  val schema = Schema(PersonQueryType, Some(PersonMutationType))
+    }
 
   @SuppressWarnings(
     Array(
@@ -46,7 +43,7 @@ trait GraphQLRoute extends PersonSchema with Directives {
       operationName: Option[String],
       variables: Json,
       tracing: Boolean
-  ) =
+  ): Route =
     extractExecutionContext { implicit ec =>
       complete(
         Executor
