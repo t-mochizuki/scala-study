@@ -48,6 +48,12 @@ object Main extends HttpApp with App with PersonSchema with DBSettings {
         OptionType(IntType),
         arguments = PersonArg :: Nil,
         resolve = c => c.ctx.addPerson(c arg PersonArg)
+      ),
+      Field(
+        "updatePerson",
+        OptionType(IntType),
+        arguments = PersonArg :: Nil,
+        resolve = c => c.ctx.updatePerson(c arg PersonArg)
       )
     )
   )

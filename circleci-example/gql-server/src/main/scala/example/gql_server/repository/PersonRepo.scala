@@ -21,4 +21,10 @@ class PersonRepo(personDao: PersonDao) {
     DB.localTx { implicit session =>
       personDao.create(person)
     }
+
+  def updatePerson(person: PersonEntity): Int =
+    DB.localTx { implicit session =>
+      personDao.update(person)
+    }
+
 }
