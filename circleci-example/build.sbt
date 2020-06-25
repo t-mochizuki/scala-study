@@ -33,7 +33,7 @@ lazy val commonSettings = Seq(
 )
 
 lazy val graphQLServer = project
-  .in(file("graphql-server"))
+  .in(file("gql-server"))
   .settings(
     commonSettings,
     libraryDependencies ++= graphQLServerDeps

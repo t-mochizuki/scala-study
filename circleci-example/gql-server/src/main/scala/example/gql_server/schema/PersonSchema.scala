@@ -1,4 +1,4 @@
-package example.graphql_server.schema
+package example.gql_server.schema
 
 import example.rest_api.entity.PersonEntity
 import sangria.schema._

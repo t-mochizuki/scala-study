@@ -1,4 +1,4 @@
-package example.graphql_server
+package example.gql_server
 
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter

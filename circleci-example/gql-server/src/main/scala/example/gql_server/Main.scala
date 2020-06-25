@@ -1,10 +1,10 @@
-package example.graphql_server
+package example.gql_server
 
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.{HttpApp, Route}
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
-import example.graphql_server.repository.PersonRepo
-import example.graphql_server.schema.PersonSchema
+import example.gql_server.repository.PersonRepo
+import example.gql_server.schema.PersonSchema
 import io.circe.Json
 import sangria.ast.Document
 import sangria.execution.Executor
