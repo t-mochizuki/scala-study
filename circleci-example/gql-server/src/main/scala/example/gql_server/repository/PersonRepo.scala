@@ -12,9 +12,9 @@ class PersonRepo(personDao: PersonDao) {
       personDao.findById(id)
     }
 
-  def persons: Seq[PersonEntity] =
+  def persons(limit: Int, offset: Int): Seq[PersonEntity] =
     DB.readOnly { implicit session =>
-      personDao.findList(10, 0)
+      personDao.findList(limit, offset)
     }
 
   def addPerson(person: PersonEntity): Int =

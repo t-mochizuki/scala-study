@@ -39,7 +39,11 @@ trait PersonSchema {
         arguments = Id :: Nil,
         resolve = c => c.ctx.person(c arg Id)
       ),
-      Field("persons", ListType(PersonType), resolve = _.ctx.persons)
+      Field(
+        "persons",
+        ListType(PersonType),
+        arguments = Limit :: Offset :: Nil,
+        resolve = c => c.ctx.persons(c arg Limit, c arg Offset))
     )
   )
 
