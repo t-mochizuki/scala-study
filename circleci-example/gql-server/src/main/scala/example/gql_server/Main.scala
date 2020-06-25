@@ -21,50 +21,7 @@ import scala.util.{Failure, Success}
 
 object Main extends HttpApp with App with PersonSchema with DBSettings {
 
-  val Id = Argument("id", IntType)
-
-  @SuppressWarnings(Array("org.wartremover.warts.Any"))
-  val QueryType = ObjectType(
-    "Query",
-    fields[PersonRepo, Unit](
-      Field(
-        "person",
-        OptionType(PersonType),
-        arguments = Id :: Nil,
-        resolve = c => c.ctx.person(c arg Id)
-      ),
-      Field("persons", ListType(PersonType), resolve = _.ctx.persons)
-    )
-  )
-
-  val PersonArg = Argument("person", PersonInputType)
-
-  @SuppressWarnings(Array("org.wartremover.warts.Any"))
-  val MutationType = ObjectType(
-    "Mutation",
-    fields[PersonRepo, Unit](
-      Field(
-        "addPerson",
-        OptionType(IntType),
-        arguments = PersonArg :: Nil,
-        resolve = c => c.ctx.addPerson(c arg PersonArg)
-      ),
-      Field(
-        "updatePerson",
-        OptionType(IntType),
-        arguments = PersonArg :: Nil,
-        resolve = c => c.ctx.updatePerson(c arg PersonArg)
-      ),
-      Field(
-        "deletePerson",
-        OptionType(BooleanType),
-        arguments = Id :: Nil,
-        resolve = c => c.ctx.deletePerson(c arg Id)
-      )
-    )
-  )
-
-  val schema = Schema(QueryType, Some(MutationType))
+  val schema = Schema(PersonQueryType, Some(PersonMutationType))
 
   @SuppressWarnings(
     Array(

@@ -11,6 +11,8 @@ import scala.util.{Failure, Success, Try}
 
 package object schema {
 
+  val Id = Argument("id", IntType)
+
   case object ZonedDateTimeCoercionViolation
       extends ValueCoercionViolation("ZonedDateTime value expected")
 
