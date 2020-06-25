@@ -84,11 +84,13 @@ object Main extends HttpApp with App with PersonSchema with DBSettings {
   override def routes: Route =
     Route.seal {
       path("graphql") {
-        parameter("query".as[String]) { (query) =>
-          val operationName = None
-          QueryParser.parse(query) match {
-            case Success(ast) => executeGraphQL(ast, operationName, Json.obj(), false)
-            case Failure(error) => complete(BadRequest, formatError(error))
+        post {
+          entity(as[String]) { query =>
+            val operationName = None
+            QueryParser.parse(query) match {
+              case Success(ast) => executeGraphQL(ast, operationName, Json.obj(), false)
+              case Failure(error) => complete(BadRequest, formatError(error))
+            }
           }
         }
       }
