@@ -3,8 +3,10 @@ package example.gql_server
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.{HttpApp, Route}
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
+import example.rest_api.boundary.db.PersonDao
 import example.gql_server.repository.PersonRepo
 import example.gql_server.schema.PersonSchema
+import example.core.settings.DBSettings
 import io.circe.Json
 import sangria.ast.Document
 import sangria.execution.Executor
@@ -17,7 +19,7 @@ import sangria.marshalling.circe._
 import scala.util.control.NonFatal
 import scala.util.{Failure, Success}
 
-object Main extends HttpApp with App with PersonSchema {
+object Main extends HttpApp with App with PersonSchema with DBSettings {
 
   val Id = Argument("id", IntType)
 
@@ -56,7 +58,7 @@ object Main extends HttpApp with App with PersonSchema {
           .execute(
             schema,
             query,
-            new PersonRepo,
+            new PersonRepo(new PersonDao),
             variables = emptyMapVars,
             operationName = operationName,
             middleware = Nil

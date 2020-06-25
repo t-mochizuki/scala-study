@@ -1,21 +1,20 @@
 package example.gql_server.repository
 
-import java.time.{ZoneId, ZonedDateTime}
+import example.rest_api.boundary.db.PersonDao
 import example.rest_api.entity.PersonEntity
 
-class PersonRepo {
+import scalikejdbc.DB
 
-  val zonedDateTime = ZonedDateTime.of(2020, 6, 8, 0, 0, 0, 0, ZoneId.systemDefault)
-
-  private val people = (
-    PersonEntity(1, "manabu", zonedDateTime) ::
-      PersonEntity(2, "keiko", zonedDateTime.minusDays(123)) ::
-      Nil
-  )
+class PersonRepo(personDao: PersonDao) {
 
   def person(id: Int): Option[PersonEntity] =
-    people.find(_.id == id)
+    DB.readOnly { implicit session =>
+      personDao.findById(id)
+    }
 
-  def persons: List[PersonEntity] = people
+  def persons: Seq[PersonEntity] =
+    DB.readOnly { implicit session =>
+      personDao.findList(10, 0)
+    }
 
 }
