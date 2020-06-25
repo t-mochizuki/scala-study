@@ -37,7 +37,22 @@ object Main extends HttpApp with App with PersonSchema with DBSettings {
     )
   )
 
-  val schema = Schema(QueryType)
+  val PersonArg = Argument("person", PersonInputType)
+
+  @SuppressWarnings(Array("org.wartremover.warts.Any"))
+  val MutationType = ObjectType(
+    "Mutation",
+    fields[PersonRepo, Unit](
+      Field(
+        "addPerson",
+        OptionType(IntType),
+        arguments = PersonArg :: Nil,
+        resolve = c => c.ctx.addPerson(c arg PersonArg)
+      )
+    )
+  )
+
+  val schema = Schema(QueryType, Some(MutationType))
 
   @SuppressWarnings(
     Array(

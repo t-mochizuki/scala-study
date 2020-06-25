@@ -16,4 +16,13 @@ trait PersonSchema {
     )
   )
 
+  val PersonInputType = InputObjectType[PersonEntity](
+    "PersonInput",
+    List(
+      InputField("id", IntType),
+      InputField("name", StringType),
+      InputField("createdAt", ZonedDateTimeType)
+    )
+  )
+
 }

@@ -17,4 +17,8 @@ class PersonRepo(personDao: PersonDao) {
       personDao.findList(10, 0)
     }
 
+  def addPerson(person: PersonEntity): Int =
+    DB.localTx { implicit session =>
+      personDao.create(person)
+    }
 }
