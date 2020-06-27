@@ -38,13 +38,13 @@ lazy val graphQLServer = project
     commonSettings,
     libraryDependencies ++= graphQLServerDeps
   )
-  .dependsOn(restApi % "compile->compile;test->test")
+  .dependsOn(restServer % "compile->compile;test->test")
 
-lazy val restApi = project
-  .in(file("rest-api"))
+lazy val restServer = project
+  .in(file("rest-server"))
   .settings(
     commonSettings,
-    libraryDependencies ++= restApiDeps
+    libraryDependencies ++= restServerDeps
   )
   .dependsOn(core % "compile->compile;test->test")
 
@@ -72,4 +72,4 @@ lazy val root = project
     libraryDependencies ++= rootDeps
   )
   .enablePlugins(FlywayPlugin)
-  .aggregate(core, restApi, graphQLServer)
+  .aggregate(core, restServer, graphQLServer)

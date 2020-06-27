@@ -1,6 +1,6 @@
 package example.gql_server.schema
 
-import example.rest_api.entity.PersonEntity
+import example.rest_server.entity.PersonEntity
 import example.gql_server.repository.PersonRepo
 import sangria.schema._
 import sangria.marshalling.circe._

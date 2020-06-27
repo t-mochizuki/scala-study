@@ -6,7 +6,7 @@ import akka.http.scaladsl.server.Route
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import example.gql_server.repository.PersonRepo
 import example.gql_server.schema.GraphQLSchema
-import example.rest_api.boundary.db.PersonDao
+import example.rest_server.boundary.db.PersonDao
 import io.circe.Json
 import sangria.ast.Document
 import sangria.execution.{ErrorWithResolver, Executor, QueryAnalysisError}

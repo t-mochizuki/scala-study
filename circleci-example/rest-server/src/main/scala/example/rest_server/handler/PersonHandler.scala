@@ -1,7 +1,7 @@
-package example.rest_api.handler
+package example.rest_server.handler
 
-import example.rest_api.entity.PersonEntity
-import example.rest_api.use_case.PersonService
+import example.rest_server.entity.PersonEntity
+import example.rest_server.use_case.PersonService
 import scalikejdbc.DBSession
 
 class PersonHandler(personService: PersonService) {

@@ -44,7 +44,7 @@ object Dependencies {
     sangriaCirce
   )
 
-  val restApiDeps = Seq(
+  val restServerDeps = Seq(
     akkaStream,
     akkaHttp,
     akkaHttpCirce,

@@ -1,9 +1,9 @@
-package example.rest_api.boundary.db
+package example.rest_server.boundary.db
 
 import java.time.{ZoneId, ZonedDateTime}
 
 import example.core.settings.DBSettings
-import example.rest_api.entity.PersonEntity
+import example.rest_server.entity.PersonEntity
 import org.scalatest.{fixture, DiagrammedAssertions}
 import scalikejdbc.scalatest.AutoRollback
 import scalikejdbc.{applyUpdate, autoNamedValues, insert}

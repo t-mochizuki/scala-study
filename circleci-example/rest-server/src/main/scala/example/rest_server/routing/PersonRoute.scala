@@ -1,12 +1,12 @@
-package example.rest_api.routing
+package example.rest_server.routing
 
 import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.model.StatusCodes.OK
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
-import example.rest_api.component.PersonComponent
-import example.rest_api.entity.PersonEntity
+import example.rest_server.component.PersonComponent
+import example.rest_server.entity.PersonEntity
 import io.circe.syntax._
 
 import scalikejdbc.DB

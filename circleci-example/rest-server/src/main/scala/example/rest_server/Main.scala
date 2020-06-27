@@ -1,10 +1,10 @@
-package example.rest_api
+package example.rest_server
 
 import akka.Done
 import akka.actor.ActorSystem
 import akka.http.scaladsl.server.{HttpApp, Route}
 import example.core.settings.DBSettings
-import example.rest_api.routing.PersonRoute
+import example.rest_server.routing.PersonRoute
 import scala.util.Try
 import scalikejdbc.config.DBs
 

@@ -1,7 +1,7 @@
 package example.gql_server.repository
 
-import example.rest_api.boundary.db.PersonDao
-import example.rest_api.entity.PersonEntity
+import example.rest_server.boundary.db.PersonDao
+import example.rest_server.entity.PersonEntity
 
 import scalikejdbc.DB
 

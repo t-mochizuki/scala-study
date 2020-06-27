@@ -1,4 +1,4 @@
-package example.rest_api.entity
+package example.rest_server.entity
 
 import java.time.ZonedDateTime
 

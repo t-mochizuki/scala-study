@@ -1,7 +1,7 @@
-package example.rest_api.use_case
+package example.rest_server.use_case
 
-import example.rest_api.boundary.db.PersonDao
-import example.rest_api.entity.PersonEntity
+import example.rest_server.boundary.db.PersonDao
+import example.rest_server.entity.PersonEntity
 import scalikejdbc.DBSession
 
 class PersonService(personDao: PersonDao) {
