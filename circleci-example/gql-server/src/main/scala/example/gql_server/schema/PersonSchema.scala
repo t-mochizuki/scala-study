@@ -52,22 +52,22 @@ trait PersonSchema {
     "PersonMutation",
     fields[PersonRepo, Unit](
       Field(
-        "addPerson",
+        "create",
         OptionType(IntType),
         arguments = PersonArg :: Nil,
-        resolve = c => c.ctx.addPerson(c arg PersonArg)
+        resolve = c => c.ctx.create(c arg PersonArg)
       ),
       Field(
-        "updatePerson",
+        "update",
         OptionType(IntType),
         arguments = PersonArg :: Nil,
-        resolve = c => c.ctx.updatePerson(c arg PersonArg)
+        resolve = c => c.ctx.update(c arg PersonArg)
       ),
       Field(
-        "deletePerson",
+        "delete",
         OptionType(BooleanType),
         arguments = Id :: Nil,
-        resolve = c => c.ctx.deletePerson(c arg Id)
+        resolve = c => c.ctx.delete(c arg Id)
       )
     )
   )

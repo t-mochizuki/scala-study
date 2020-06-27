@@ -17,17 +17,17 @@ class PersonRepo(personDao: PersonDao) {
       personDao.findList(limit, offset)
     }
 
-  def addPerson(person: PersonEntity): Int =
+  def create(person: PersonEntity): Int =
     DB.localTx { implicit session =>
       personDao.create(person)
     }
 
-  def updatePerson(person: PersonEntity): Int =
+  def update(person: PersonEntity): Int =
     DB.localTx { implicit session =>
       personDao.update(person)
     }
 
-  def deletePerson(id: Int): Boolean =
+  def delete(id: Int): Boolean =
     DB.localTx { implicit session =>
       personDao.delete(id)
     }
