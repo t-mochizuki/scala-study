@@ -39,9 +39,14 @@ object Dependencies {
 
   val sangriaCirce = "org.sangria-graphql" %% "sangria-circe" % "1.3.0"
 
+  val sangriaRelay = "org.sangria-graphql" %% "sangria-relay" % "2.0.0-M2"
+  val jaxbApi = "javax.xml.bind" % "jaxb-api" % "2.3.1"
+
   val graphQLServerDeps = Seq(
     sangria,
-    sangriaCirce
+    sangriaCirce,
+    sangriaRelay,
+    jaxbApi
   )
 
   val restServerDeps = Seq(

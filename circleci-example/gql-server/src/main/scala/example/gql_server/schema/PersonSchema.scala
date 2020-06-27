@@ -1,9 +1,10 @@
 package example.gql_server.schema
 
-import example.rest_server.entity.PersonEntity
 import example.gql_server.repository.PersonRepo
-import sangria.schema._
+import example.rest_server.entity.PersonEntity
 import sangria.marshalling.circe._
+import sangria.relay.{Connection, ConnectionDefinition, ConnectionArgs}
+import sangria.schema._
 
 trait PersonSchema {
 
@@ -27,7 +28,9 @@ trait PersonSchema {
     )
   )
 
-  val PersonArg = Argument("person", PersonInputType)
+  @SuppressWarnings(Array("org.wartremover.warts.Any"))
+  val ConnectionDefinition(_, personConnection) =
+    Connection.definition[PersonRepo, Connection, PersonEntity]("Persons", PersonType)
 
   @SuppressWarnings(Array("org.wartremover.warts.Any"))
   val PersonQueryType = ObjectType(
@@ -41,11 +44,13 @@ trait PersonSchema {
       ),
       Field(
         "persons",
-        ListType(PersonType),
-        arguments = Limit :: Offset :: Nil,
-        resolve = c => c.ctx.persons(c arg Limit, c arg Offset))
+        OptionType(personConnection),
+        arguments = Connection.Args.All,
+        resolve = c => Connection.connectionFromSeq(c.ctx.persons(10, 0), ConnectionArgs(c)))
     )
   )
+
+  val PersonArg = Argument("person", PersonInputType)
 
   @SuppressWarnings(Array("org.wartremover.warts.Any"))
   val PersonMutationType = ObjectType(
