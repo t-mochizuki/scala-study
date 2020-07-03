@@ -15,6 +15,6 @@ object Main extends HttpApp with App {
     }
   }
 
-  startServer(host = "localhost", port = 8181)
+  startServer(host = "0.0.0.0", port = 8181)
 
 }
