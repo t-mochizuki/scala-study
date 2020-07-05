@@ -1,9 +1,10 @@
 package example.gql_server.schema
 
-import example.gql_server.repository.PersonRepo
-import example.rest_server.entity.PersonEntity
+import example.gql_server.context.UserContext
+import example.gql_server.entity.PersonEntity
+import scalikejdbc.DB
 import sangria.marshalling.circe._
-import sangria.relay.{Connection, ConnectionDefinition, ConnectionArgs}
+import sangria.relay.{Connection, ConnectionArgs, ConnectionDefinition}
 import sangria.schema._
 
 trait PersonSchema {
@@ -29,52 +30,67 @@ trait PersonSchema {
   )
 
   @SuppressWarnings(Array("org.wartremover.warts.Any"))
-  val ConnectionDefinition(_, personConnection) =
-    Connection.definition[PersonRepo, Connection, PersonEntity]("Persons", PersonType)
+  val personField = Field(
+    "person",
+    OptionType(PersonType),
+    arguments = Id :: Nil,
+    resolve = (c: Context[UserContext, Unit]) =>
+      DB.readOnly { implicit session =>
+        c.ctx.personHandler.findById(c arg Id)
+      }
+  )
 
   @SuppressWarnings(Array("org.wartremover.warts.Any"))
-  val PersonQueryType = ObjectType(
-    "PersonQuery",
-    fields[PersonRepo, Unit](
-      Field(
-        "person",
-        OptionType(PersonType),
-        arguments = Id :: Nil,
-        resolve = c => c.ctx.person(c arg Id)
-      ),
-      Field(
-        "persons",
-        OptionType(personConnection),
-        arguments = Connection.Args.All,
-        resolve = c => Connection.connectionFromSeq(c.ctx.persons(10, 0), ConnectionArgs(c)))
-    )
+  val ConnectionDefinition(_, personConnection) =
+    Connection.definition[UserContext, Connection, PersonEntity]("Persons", PersonType)
+
+  @SuppressWarnings(Array("org.wartremover.warts.Any"))
+  val personsField = Field(
+    "persons",
+    OptionType(personConnection),
+    arguments = Connection.Args.All,
+    resolve = (c: Context[UserContext, Unit]) =>
+      DB.readOnly { implicit session =>
+        Connection.connectionFromSeq(
+          c.ctx.personHandler.findList(),
+          ConnectionArgs(c)
+        )
+      }
   )
 
   val PersonArg = Argument("person", PersonInputType)
 
   @SuppressWarnings(Array("org.wartremover.warts.Any"))
-  val PersonMutationType = ObjectType(
-    "PersonMutation",
-    fields[PersonRepo, Unit](
-      Field(
-        "create",
-        OptionType(IntType),
-        arguments = PersonArg :: Nil,
-        resolve = c => c.ctx.create(c arg PersonArg)
-      ),
-      Field(
-        "update",
-        OptionType(IntType),
-        arguments = PersonArg :: Nil,
-        resolve = c => c.ctx.update(c arg PersonArg)
-      ),
-      Field(
-        "delete",
-        OptionType(BooleanType),
-        arguments = Id :: Nil,
-        resolve = c => c.ctx.delete(c arg Id)
-      )
-    )
+  val createPersonField = Field(
+    "createPerson",
+    OptionType(IntType),
+    arguments = PersonArg :: Nil,
+    resolve = (c: Context[UserContext, Unit]) =>
+      DB.localTx { implicit session =>
+        c.ctx.personHandler.create(c arg PersonArg)
+      }
+  )
+
+  @SuppressWarnings(Array("org.wartremover.warts.Any"))
+  val updatePersonField = Field(
+    "updatePerson",
+    OptionType(IntType),
+    arguments = PersonArg :: Nil,
+    resolve = (c: Context[UserContext, Unit]) =>
+      DB.localTx { implicit session =>
+        c.ctx.personHandler.update(c arg PersonArg)
+      }
+  )
+
+  @SuppressWarnings(Array("org.wartremover.warts.Any"))
+  val deletePersonField = Field(
+    "deletePerson",
+    OptionType(BooleanType),
+    arguments = Id :: Nil,
+    resolve = (c: Context[UserContext, Unit]) =>
+      DB.localTx { implicit session =>
+        c.ctx.personHandler.delete(c arg Id)
+      }
   )
 
 }

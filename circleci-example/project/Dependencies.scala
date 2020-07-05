@@ -2,40 +2,43 @@ import sbt._
 
 object Dependencies {
 
-  val akkaVersion = "2.6.6"
-  val akkaStream = "com.typesafe.akka" %% "akka-stream" % akkaVersion
+  object Version {
+    val akka = "2.6.6"
+    val akkaHttp = "10.1.12"
+    val circe = "0.13.0"
+    val mysql = "8.0.12"
+    val scalikejdbc = "3.4.2"
+    val slf4j = "1.7.30"
+    val logback = "1.2.3"
+    val sangria = "2.0.0"
+  }
 
-  val akkaHttpVersion = "10.1.12"
-  val akkaHttp = "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
+  val akkaStream = "com.typesafe.akka" %% "akka-stream" % Version.akka
+
+  val akkaHttp = "com.typesafe.akka" %% "akka-http" % Version.akkaHttp
 
   val akkaHttpCirce = "de.heikoseeberger" %% "akka-http-circe" % "1.32.0"
 
-  val circeVersion = "0.13.0"
-  val circeCore = "io.circe" %% "circe-core" % circeVersion
-  val circeGeneric = "io.circe" %% "circe-generic" % circeVersion
-  val circeParser = "io.circe" %% "circe-parser" % circeVersion
+  val circeCore = "io.circe" %% "circe-core" % Version.circe
+  val circeGeneric = "io.circe" %% "circe-generic" % Version.circe
+  val circeParser = "io.circe" %% "circe-parser" % Version.circe
 
   val scalatest = "org.scalatest" %% "scalatest" % "3.0.8" % Test
 
-  val mysqlVersion = "8.0.12"
-  val mysql = "mysql" % "mysql-connector-java" % mysqlVersion
+  val mysql = "mysql" % "mysql-connector-java" % Version.mysql
 
-  val scalikejdbcVersion = "3.4.2"
-  val scalikejdbc = "org.scalikejdbc" %% "scalikejdbc" % scalikejdbcVersion
-  val scalikejdbcConfig = "org.scalikejdbc" %% "scalikejdbc-config" % scalikejdbcVersion
+  val scalikejdbc = "org.scalikejdbc" %% "scalikejdbc" % Version.scalikejdbc
+  val scalikejdbcConfig = "org.scalikejdbc" %% "scalikejdbc-config" % Version.scalikejdbc
   val scalikejdbcSyntaxSupportMacro =
-    "org.scalikejdbc" %% "scalikejdbc-syntax-support-macro" % scalikejdbcVersion
-  val scalikejdbcTest = "org.scalikejdbc" %% "scalikejdbc-test" % scalikejdbcVersion % Test
+    "org.scalikejdbc" %% "scalikejdbc-syntax-support-macro" % Version.scalikejdbc
+  val scalikejdbcTest = "org.scalikejdbc" %% "scalikejdbc-test" % Version.scalikejdbc % Test
 
-  val slf4jVersion = "1.7.30"
-  val slf4jApi = "org.slf4j" % "slf4j-api" % slf4jVersion
+  val slf4jApi = "org.slf4j" % "slf4j-api" % Version.slf4j
 
-  val logbackVersion = "1.2.3"
-  val logbackCore = "ch.qos.logback" % "logback-core" % logbackVersion
-  val logbackClassic = "ch.qos.logback" % "logback-classic" % logbackVersion
+  val logbackCore = "ch.qos.logback" % "logback-core" % Version.logback
+  val logbackClassic = "ch.qos.logback" % "logback-classic" % Version.logback
 
-  val sangriaVersion = "2.0.0"
-  val sangria = "org.sangria-graphql" %% "sangria" % sangriaVersion
+  val sangria = "org.sangria-graphql" %% "sangria" % Version.sangria
 
   val sangriaCirce = "org.sangria-graphql" %% "sangria-circe" % "1.3.0"
 
@@ -49,7 +52,7 @@ object Dependencies {
     jaxbApi
   )
 
-  val restServerDeps = Seq(
+  val webServerDeps = Seq(
     akkaStream,
     akkaHttp,
     akkaHttpCirce,

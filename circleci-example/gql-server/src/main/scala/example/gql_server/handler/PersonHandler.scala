@@ -1,7 +1,7 @@
-package example.rest_server.handler
+package example.gql_server.handler
 
-import example.rest_server.entity.PersonEntity
-import example.rest_server.use_case.PersonService
+import example.gql_server.entity.PersonEntity
+import example.gql_server.use_case.PersonService
 import scalikejdbc.DBSession
 
 class PersonHandler(personService: PersonService) {
@@ -14,8 +14,8 @@ class PersonHandler(personService: PersonService) {
   def delete(id: Int)(implicit session: DBSession): Boolean =
     personService.delete(id)
 
-  def findList(limit: Int, offset: Int)(implicit session: DBSession): Seq[PersonEntity] =
-    personService.findList(limit, offset)
+  def findList()(implicit session: DBSession): Seq[PersonEntity] =
+    personService.findList()
 
   def findById(id: Int)(implicit session: DBSession): Option[PersonEntity] =
     personService.findById(id)

@@ -13,10 +13,6 @@ package object schema {
 
   val Id = Argument("id", IntType)
 
-  val Limit = Argument("limit", IntType)
-
-  val Offset = Argument("offset", IntType)
-
   case object ZonedDateTimeCoercionViolation
       extends ValueCoercionViolation("ZonedDateTime value expected")
 

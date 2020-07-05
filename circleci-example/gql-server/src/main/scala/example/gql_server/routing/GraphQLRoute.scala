@@ -4,28 +4,42 @@ import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.server.Route
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
-import example.gql_server.repository.PersonRepo
+import example.gql_server.component.GraphQLComponent
+import example.gql_server.context.UserContext
 import example.gql_server.schema.GraphQLSchema
-import example.rest_server.boundary.db.PersonDao
 import io.circe.Json
+import io.circe.parser._
 import sangria.ast.Document
 import sangria.execution.{ErrorWithResolver, Executor, QueryAnalysisError}
-import sangria.marshalling.InputUnmarshaller.emptyMapVars
 import sangria.marshalling.circe._
 import sangria.parser.{QueryParser, SyntaxError}
 import scala.util.control.NonFatal
 import scala.util.{Failure, Success}
 
-trait GraphQLRoute extends GraphQLSchema with Directives {
+trait GraphQLRoute extends GraphQLSchema with GraphQLComponent with Directives {
 
   def graphQLRoute(): Route =
     path("graphql") {
       post {
-        entity(as[String]) { query =>
-          val operationName = None
-          QueryParser.parse(query) match {
-            case Success(ast) => executeGraphQL(ast, operationName, Json.obj(), false)
-            case Failure(error) => complete(BadRequest, formatError(error))
+        entity(as[Json]) { body =>
+          val query = body.hcursor.get[String]("query").toOption
+          val operationName = body.hcursor.get[String]("operationName").toOption
+          val variablesStr = body.hcursor.get[String]("variables").toOption
+
+          query.map(QueryParser.parse(_)) match {
+            case Some(Success(ast)) =>
+              variablesStr.map(parse) match {
+                case Some(Left(error)) => complete(BadRequest, formatError(error))
+                case Some(Right(json)) => executeGraphQL(ast, operationName, json)
+                case None =>
+                  executeGraphQL(
+                    ast,
+                    operationName,
+                    body.hcursor.get[Json]("variables").toOption getOrElse Json.obj()
+                  )
+              }
+            case Some(Failure(error)) => complete(BadRequest, formatError(error))
+            case None => complete(BadRequest, formatError("No query to execute"))
           }
         }
       }
@@ -41,8 +55,7 @@ trait GraphQLRoute extends GraphQLSchema with Directives {
   def executeGraphQL(
       query: Document,
       operationName: Option[String],
-      variables: Json,
-      tracing: Boolean
+      variables: Json
   ): Route =
     extractExecutionContext { implicit ec =>
       complete(
@@ -50,8 +63,10 @@ trait GraphQLRoute extends GraphQLSchema with Directives {
           .execute(
             schema,
             query,
-            new PersonRepo(new PersonDao),
-            variables = emptyMapVars,
+            new UserContext {
+              val personHandler = personHandlerImpl
+            },
+            variables = variables,
             operationName = operationName,
             middleware = Nil
           )
