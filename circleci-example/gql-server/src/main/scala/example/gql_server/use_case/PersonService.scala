@@ -1,7 +1,7 @@
-package example.rest_server.use_case
+package example.gql_server.use_case
 
-import example.rest_server.boundary.db.PersonDao
-import example.rest_server.entity.PersonEntity
+import example.gql_server.boundary.db.PersonDao
+import example.gql_server.entity.PersonEntity
 import scalikejdbc.DBSession
 
 class PersonService(personDao: PersonDao) {
@@ -14,8 +14,8 @@ class PersonService(personDao: PersonDao) {
   def delete(id: Int)(implicit session: DBSession): Boolean =
     personDao.delete(id)
 
-  def findList(limit: Int, offset: Int)(implicit session: DBSession): Seq[PersonEntity] =
-    personDao.findList(limit, offset)
+  def findList()(implicit session: DBSession): Seq[PersonEntity] =
+    personDao.findList()
 
   def findById(id: Int)(implicit session: DBSession): Option[PersonEntity] =
     personDao.findById(id)

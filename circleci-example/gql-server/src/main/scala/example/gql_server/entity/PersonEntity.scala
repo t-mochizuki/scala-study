@@ -1,4 +1,4 @@
-package example.rest_server.entity
+package example.gql_server.entity
 
 import java.time.ZonedDateTime
 
