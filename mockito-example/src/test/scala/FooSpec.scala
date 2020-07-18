@@ -1,9 +1,10 @@
 package example
 
-import org.scalatest.{DiagrammedAssertions, FlatSpec}
 import org.mockito.Mockito._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.diagrams.Diagrams
 
-class FooSpec extends FlatSpec with DiagrammedAssertions {
+class FooSpec extends AnyFlatSpec with Diagrams {
 
   "hello" should "be null if the receiver is mock" in {
     val mockFoo = mock(classOf[Foo])
