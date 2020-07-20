@@ -37,8 +37,7 @@ object Main extends HttpApp with App {
       path("hello") {
         get {
           requiredSession(oneOff, usingCookies) { session =>
-            println(session.id)
-            complete("Hello, world")
+            complete(s"Hello, ${session.id}")
           }
         }
       }
