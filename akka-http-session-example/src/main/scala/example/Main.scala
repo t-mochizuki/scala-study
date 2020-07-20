@@ -4,11 +4,11 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.{HttpApp, Route}
 import com.softwaremill.session.SessionDirectives.{setSession, invalidateSession, requiredSession}
 import com.softwaremill.session.SessionOptions.{oneOff, usingCookies}
-import com.softwaremill.session.{SessionConfig, SessionManager, SessionUtil}
+import com.softwaremill.session.{SessionConfig, SessionManager}
 
 object Main extends HttpApp with App {
 
-  val sessionConfig = SessionConfig.default(SessionUtil.randomServerSecret())
+  val sessionConfig = SessionConfig.fromConfig()
 
   implicit val sessionManager = new SessionManager[Session](sessionConfig)
 
