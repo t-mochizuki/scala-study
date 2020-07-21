@@ -12,35 +12,38 @@ object Main extends HttpApp with App {
 
   implicit val sessionManager = new SessionManager[Session](sessionConfig)
 
-  override def routes: Route =
-    Route.seal {
-      path("login") {
-        post {
-          formFields("id", "password"){ case (id, password) =>
-            if(id == "admin" && password == "admin"){
-              setSession(oneOff, usingCookies, Session(id)) {
-                complete(StatusCodes.OK)
-              }
-            } else {
-              complete(StatusCodes.Unauthorized)
+  def createRoutes()(implicit sessionManager: SessionManager[Session]): Route =
+    path("login") {
+      post {
+        formFields("id", "password") { case (id, password) =>
+          if (id == "admin" && password == "admin") {
+            setSession(oneOff, usingCookies, Session(id)) {
+              complete(StatusCodes.OK)
             }
-          }
-        }
-      } ~
-      path("logout") {
-        post {
-          invalidateSession(oneOff, usingCookies){
-            complete(StatusCodes.OK)
-          }
-        }
-      } ~
-      path("hello") {
-        get {
-          requiredSession(oneOff, usingCookies) { session =>
-            complete(s"Hello, ${session.id}")
+          } else {
+            complete(StatusCodes.Unauthorized)
           }
         }
       }
+    } ~
+    path("logout") {
+      post {
+        invalidateSession(oneOff, usingCookies) {
+          complete(StatusCodes.OK)
+        }
+      }
+    } ~
+    path("hello") {
+      get {
+        requiredSession(oneOff, usingCookies) { session =>
+          complete(s"Hello, ${session.id}")
+        }
+      }
+    }
+
+  override def routes: Route =
+    Route.seal {
+      createRoutes()
     }
 
   startServer(host = "0.0.0.0", port = 3000)
