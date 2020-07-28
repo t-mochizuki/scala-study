@@ -8,7 +8,5 @@ case class Session(id: String)
 
 object Session {
   implicit def serializer: SessionSerializer[Session, String] =
-    new SingleValueSessionSerializer(
-      _.id,
-      (un: String) => Try { Session(un) })
+    new SingleValueSessionSerializer(_.id, (un: String) => Try { Session(un) })
 }
