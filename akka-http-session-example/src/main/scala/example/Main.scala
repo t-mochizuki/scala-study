@@ -2,8 +2,6 @@ package example
 
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.{HttpApp, Route}
-import com.softwaremill.session.CsrfDirectives.{setNewCsrfToken, randomTokenCsrfProtection}
-import com.softwaremill.session.CsrfOptions.checkHeader
 import com.softwaremill.session.SessionDirectives.{setSession, invalidateSession, requiredSession}
 import com.softwaremill.session.SessionOptions.{oneOff, usingCookies}
 import com.softwaremill.session.{SessionConfig, SessionManager}
@@ -20,9 +18,7 @@ object Main extends HttpApp with App {
         formFields("id", "password") { case (id, password) =>
           if (id == "admin" && password == "admin") {
             setSession(oneOff, usingCookies, Session(id)) {
-              setNewCsrfToken(checkHeader) {
-                complete(StatusCodes.OK)
-              }
+              complete(StatusCodes.OK)
             }
           } else {
             complete(StatusCodes.Unauthorized)
@@ -47,9 +43,7 @@ object Main extends HttpApp with App {
 
   override def routes: Route =
     Route.seal {
-      randomTokenCsrfProtection(checkHeader) {
-        createRoutes()
-      }
+      createRoutes()
     }
 
   startServer(host = "0.0.0.0", port = 3000)
