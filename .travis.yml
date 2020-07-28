@@ -1,0 +1,9 @@
+language: scala
+dist: xenial
+scala:
+  - 2.13.2
+script:
+  - cd mockito-example && sbt +test
+sbt_args: -no-colors
+jdk:
+  - openjdk11
