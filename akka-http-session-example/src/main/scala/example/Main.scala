@@ -4,7 +4,7 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.{HttpApp, Route}
 import com.softwaremill.session.SessionDirectives.{invalidateSession, requiredSession, setSession}
 import com.softwaremill.session.SessionOptions.{refreshable, usingCookies}
-import com.softwaremill.session.{InMemoryRefreshTokenStorage, SessionConfig, SessionManager}
+import com.softwaremill.session.{SessionConfig, SessionManager}
 import com.softwaremill.session.RefreshTokenStorage
 
 import scala.concurrent.ExecutionContext
@@ -15,7 +15,7 @@ object Main extends HttpApp with App {
 
   implicit val sessionManager = new SessionManager[Session](sessionConfig)
 
-  implicit val refreshTokenStorage = new InMemoryRefreshTokenStorage[Session] {
+  implicit val refreshTokenStorage = new MyRefreshTokenStorage[Session] {
     def log(msg: String) = println(msg)
   }
 
