@@ -7,6 +7,8 @@ object Dependencies {
     val akkaHttp = "10.1.12"
     val akkaHttpSession = "0.5.11"
     val scalatest = "3.2.0"
+    val circe = "0.13.0"
+    val redisClient = "3.30"
   }
 
   val akkaHttp = "com.typesafe.akka" %% "akka-http" % Version.akkaHttp
@@ -17,6 +19,10 @@ object Dependencies {
   val scalatestFlatSpec = "org.scalatest" %% "scalatest-flatspec" % Version.scalatest % Test
   val scalatestDiagrams = "org.scalatest" %% "scalatest-diagrams" % Version.scalatest % Test
   val scalatestMustMatchers = "org.scalatest" %% "scalatest-mustmatchers" % Version.scalatest % Test
+  val redisClient = "net.debasishg" %% "redisclient" % Version.redisClient
+  val circeCore = "io.circe" %% "circe-core" % Version.circe
+  val circeGeneric = "io.circe" %% "circe-generic" % Version.circe
+  val circeParser = "io.circe" %% "circe-parser" % Version.circe
 
   val serverDeps = Seq(
     akkaHttp,
@@ -24,6 +30,10 @@ object Dependencies {
     akkaHttpSession,
     akkaStream,
     akkaStreamTestKit,
+    circeCore,
+    circeGeneric,
+    circeParser,
+    redisClient,
     scalatestFlatSpec,
     scalatestDiagrams,
     scalatestMustMatchers)

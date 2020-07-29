@@ -15,7 +15,7 @@ object Main extends HttpApp with App {
 
   implicit val sessionManager = new SessionManager[Session](sessionConfig)
 
-  implicit val refreshTokenStorage = new MyRefreshTokenStorage[Session] {
+  implicit val refreshTokenStorage = new MyRefreshTokenStorage {
     def log(msg: String) = println(msg)
   }
 
