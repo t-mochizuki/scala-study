@@ -1,46 +1,45 @@
 package example
 
 import com.softwaremill.session.{RefreshTokenData, RefreshTokenLookupResult, RefreshTokenStorage}
+import com.redis.RedisClient
+import com.redis.serialization.Parse.Implicits.parseByteArray
 
-import scala.collection.mutable
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 
 @SuppressWarnings(
   Array("org.wartremover.warts.NonUnitStatements")
 )
-trait MyRefreshTokenStorage[T] extends RefreshTokenStorage[T] {
-  case class Store(session: T, tokenHash: String, expires: Long)
-  private val _store = mutable.Map[String, Store]()
+trait MyRefreshTokenStorage extends RefreshTokenStorage[Session] {
+  private val _store = new RedisClient("localhost", 6379)
 
-  def store: Map[String, Store] = _store.toMap
-
-  override def lookup(selector: String) = {
+  override def lookup(selector: String): Future[Option[RefreshTokenLookupResult[Session]]] = {
     Future.successful {
       val r = _store
-        .get(selector)
-        .map(s => RefreshTokenLookupResult[T](s.tokenHash, s.expires, () => s.session))
+        .get[Array[Byte]](selector)
+        .map(Serializer.deserialize[Store])
+        .map(s => RefreshTokenLookupResult[Session](s.tokenHash, s.expires, () => s.session))
       log(s"Looking up token for selector: $selector, found: ${r.isDefined.toString}")
       r
     }
   }
 
-  override def store(data: RefreshTokenData[T]) = {
+  override def store(data: RefreshTokenData[Session]): Future[Unit] = {
     log(
       s"Storing token for selector: ${data.selector}, user: ${data.forSession.toString}, " +
         s"expires: ${data.expires.toString}, now: ${System.currentTimeMillis().toString}"
     )
     Future.successful(
-      _store.put(data.selector, Store(data.forSession, data.tokenHash, data.expires))
+      _store.set(data.selector, Serializer.serialize(Store(data.forSession, data.tokenHash, data.expires)))
     )
   }
 
-  override def remove(selector: String) = {
+  override def remove(selector: String): Future[Unit] = {
     log(s"Removing token for selector: $selector")
-    Future.successful(_store.remove(selector))
+    Future.successful(_store.del(selector))
   }
 
-  override def schedule[S](after: Duration)(op: => Future[S]) = {
+  override def schedule[S](after: Duration)(op: => Future[S]): Unit = {
     log("Running scheduled operation immediately")
     op
     Future.successful(())
