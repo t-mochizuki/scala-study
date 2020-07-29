@@ -4,9 +4,10 @@ import akka.http.scaladsl.model.headers.{`Set-Cookie`, Cookie}
 import akka.http.scaladsl.model.{FormData, StatusCodes}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import com.softwaremill.session.{InMemoryRefreshTokenStorage, SessionConfig, SessionManager}
-import org.scalatest.{DiagrammedAssertions, FlatSpec}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.diagrams.Diagrams
 
-class MainSpec extends FlatSpec with DiagrammedAssertions with ScalatestRouteTest {
+class MainSpec extends AnyFlatSpec with Diagrams with ScalatestRouteTest {
 
   behavior of "Main"
 
