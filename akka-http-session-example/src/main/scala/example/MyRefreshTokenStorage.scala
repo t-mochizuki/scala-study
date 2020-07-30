@@ -1,8 +1,8 @@
 package example
 
-import com.softwaremill.session.{RefreshTokenData, RefreshTokenLookupResult, RefreshTokenStorage}
 import com.redis.RedisClient
-import com.redis.serialization.Parse.Implicits.parseByteArray
+import com.softwaremill.session.{RefreshTokenData, RefreshTokenLookupResult, RefreshTokenStorage}
+import io.circe.parser.parse
 
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
@@ -11,13 +11,15 @@ import scala.concurrent.duration.Duration
   Array("org.wartremover.warts.NonUnitStatements")
 )
 trait MyRefreshTokenStorage extends RefreshTokenStorage[Session] {
+
   private val _store = new RedisClient("localhost", 6379)
 
   override def lookup(selector: String): Future[Option[RefreshTokenLookupResult[Session]]] = {
     Future.successful {
       val r = _store
-        .get[Array[Byte]](selector)
-        .map(Serializer.deserialize[Store])
+        .get[String](selector)
+        .flatMap(parse(_).toOption)
+        .flatMap(Store.decoder.decodeJson(_).toOption)
         .map(s => RefreshTokenLookupResult[Session](s.tokenHash, s.expires, () => s.session))
       log(s"Looking up token for selector: $selector, found: ${r.isDefined.toString}")
       r
@@ -30,7 +32,7 @@ trait MyRefreshTokenStorage extends RefreshTokenStorage[Session] {
         s"expires: ${data.expires.toString}, now: ${System.currentTimeMillis().toString}"
     )
     Future.successful(
-      _store.set(data.selector, Serializer.serialize(Store(data.forSession, data.tokenHash, data.expires)))
+      _store.set(data.selector, Store.encoder(Store(data.forSession, data.tokenHash, data.expires)))
     )
   }
 
@@ -46,4 +48,5 @@ trait MyRefreshTokenStorage extends RefreshTokenStorage[Session] {
   }
 
   def log(msg: String): Unit
+
 }
