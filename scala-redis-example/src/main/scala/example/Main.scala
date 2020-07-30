@@ -1,8 +1,7 @@
 package example
 
-import io.circe.Json
-import io.circe.parser.parse
 import com.redis.RedisClient
+import io.circe.parser.parse
 
 object Main extends App {
   val r = new RedisClient("localhost", 6379)
@@ -13,8 +12,8 @@ object Main extends App {
 
   val id = r
     .get[String]("key")
-    .map(parse(_).getOrElse(Json.Null))
-    .map(Store.decoder.decodeJson(_).getOrElse(Store(Session("keiko", "21121"))))
+    .flatMap(parse(_).toOption)
+    .flatMap(Store.decoder.decodeJson(_).toOption)
     .map(_.session)
     .map(_.id)
     .getOrElse("")
