@@ -3,9 +3,9 @@ package example
 import akka.http.scaladsl.server.{HttpApp, Route}
 import com.softwaremill.session.{SessionConfig, SessionManager}
 import com.softwaremill.session.InMemoryRefreshTokenStorage
-import example.routing.GraphqlRoute
+import example.routing._
 
-object Main extends HttpApp with App with GraphqlRoute {
+object Main extends HttpApp with App with GraphqlRoute with LoginRoute with LogoutRoute {
 
   val sessionConfig = SessionConfig.fromConfig()
 
@@ -17,6 +17,8 @@ object Main extends HttpApp with App with GraphqlRoute {
 
   override def routes: Route = {
     Route.seal {
+      loginRoute() ~
+      logoutRoute() ~
       graphQLRoute()
     }
   }

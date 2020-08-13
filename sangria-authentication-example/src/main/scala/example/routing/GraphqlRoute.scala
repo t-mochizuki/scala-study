@@ -3,7 +3,7 @@ package example.routing
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.server.Route
-import com.softwaremill.session.SessionDirectives.{invalidateSession, setSession, requiredSession}
+import com.softwaremill.session.SessionDirectives.requiredSession
 import com.softwaremill.session.SessionOptions.{refreshable, usingCookies}
 import com.softwaremill.session.SessionManager
 import com.softwaremill.session.RefreshTokenStorage
@@ -59,6 +59,7 @@ trait GraphqlRoute extends GraphqlSchema with Directives {
       "org.wartremover.warts.Any",
       "org.wartremover.warts.Product",
       "org.wartremover.warts.Serializable",
+      "org.wartremover.warts.Throw",
       "org.wartremover.warts.NonUnitStatements"
     )
   )
@@ -71,36 +72,35 @@ trait GraphqlRoute extends GraphqlSchema with Directives {
       refreshTokenStorage: RefreshTokenStorage[Session]
   ): Route =
     extractExecutionContext { implicit ec =>
-      complete(
-        Executor
-          .execute(
-            schema,
-            query,
-            new UserContext {
-              val numberRepo = new NumberRepo
-              def numbers(): List[Int] = {
-                requiredSession(refreshable, usingCookies)
-                numberRepo.numbers
-              }
-              def login(id: String, password: String): String = {
-                setSession(refreshable, usingCookies, Session(id))
-                password
-              }
-              def logout(): String = {
-                invalidateSession(refreshable, usingCookies)
-                "Log out"
-              }
-            },
-            variables = variables,
-            operationName = operationName,
-            middleware = Nil
-          )
-          .map(OK -> _)
-          .recover {
-            case error: QueryAnalysisError => BadRequest -> error.resolveError
-            case error: ErrorWithResolver => InternalServerError -> error.resolveError
-          }
-      )
+
+      extractRequest { httpRequest =>
+
+        complete(
+          Executor
+            .execute(
+              schema,
+              query,
+              new UserContext {
+                val numberRepo = new NumberRepo
+                def numbers(): List[Int] = {
+                  if (httpRequest.cookies.filter(_.name == "_sessiondata").headOption.isDefined) {
+                    numberRepo.numbers
+                  } else {
+                    throw new Exception
+                  }
+                }
+              },
+              variables = variables,
+              operationName = operationName,
+              middleware = Nil
+            )
+            .map(OK -> _)
+            .recover {
+              case error: QueryAnalysisError => BadRequest -> error.resolveError
+              case error: ErrorWithResolver => InternalServerError -> error.resolveError
+            }
+        )
+      }
     }
 
   @SuppressWarnings(Array("org.wartremover.warts.Throw"))
