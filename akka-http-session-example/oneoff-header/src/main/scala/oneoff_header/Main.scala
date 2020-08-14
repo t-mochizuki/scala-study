@@ -1,13 +1,10 @@
-package refreshable_cookie
+package oneoff_header
 
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.{HttpApp, Route}
 import com.softwaremill.session.SessionDirectives.{invalidateSession, requiredSession, setSession}
-import com.softwaremill.session.SessionOptions.{refreshable, usingCookies}
+import com.softwaremill.session.SessionOptions.{oneOff, usingHeaders}
 import com.softwaremill.session.{SessionConfig, SessionManager}
-import com.softwaremill.session.RefreshTokenStorage
-
-import scala.concurrent.ExecutionContext
 
 object Main extends HttpApp with App {
 
@@ -15,14 +12,8 @@ object Main extends HttpApp with App {
 
   implicit val sessionManager = new SessionManager[Session](sessionConfig)
 
-  implicit val refreshTokenStorage = new InMemoryDBRefreshTokenStorage {
-    def log(msg: String) = println(msg)
-  }
-
   def createRoutes()(implicit
-      sessionManager: SessionManager[Session],
-      refreshTokenStorage: RefreshTokenStorage[Session],
-      ec: ExecutionContext
+      sessionManager: SessionManager[Session]
   ): Route =
     // format: off
     path("login") {
@@ -30,7 +21,7 @@ object Main extends HttpApp with App {
         formFields("id", "password") {
           case (id, password) =>
             if (id == "admin" && password == "admin") {
-              setSession(refreshable, usingCookies, Session(id)) {
+              setSession(oneOff, usingHeaders, Session(id)) {
                 complete(StatusCodes.OK)
               }
             } else {
@@ -41,14 +32,14 @@ object Main extends HttpApp with App {
     } ~
     path("logout") {
       post {
-        invalidateSession(refreshable, usingCookies) {
+        invalidateSession(oneOff, usingHeaders) {
           complete(StatusCodes.OK)
         }
       }
     } ~
     path("hello") {
       get {
-        requiredSession(refreshable, usingCookies) { session =>
+        requiredSession(oneOff, usingHeaders) { session =>
           complete(s"Hello, ${session.id}")
         }
       }
@@ -56,8 +47,6 @@ object Main extends HttpApp with App {
     // format: on
 
   override def routes: Route = {
-    implicit val ec = systemReference.get.dispatcher
-
     Route.seal {
       createRoutes()
     }
