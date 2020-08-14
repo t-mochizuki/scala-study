@@ -24,9 +24,17 @@ lazy val commonSettings = Seq(
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 )
 
+lazy val refreshableCookie = project
+  .in(file("refreshable-cookie"))
+  .settings(
+    commonSettings,
+    libraryDependencies ++= serverDeps
+  )
+
 lazy val root = project
   .in(file("."))
   .settings(
     commonSettings,
-    libraryDependencies ++= rootDeps ++ serverDeps
+    libraryDependencies ++= rootDeps
   )
+  .aggregate(refreshableCookie)

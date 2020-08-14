@@ -1,4 +1,4 @@
-package example
+package refreshable_cookie
 
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.{HttpApp, Route}
@@ -15,7 +15,7 @@ object Main extends HttpApp with App {
 
   implicit val sessionManager = new SessionManager[Session](sessionConfig)
 
-  implicit val refreshTokenStorage = new MyRefreshTokenStorage {
+  implicit val refreshTokenStorage = new InMemoryDBRefreshTokenStorage {
     def log(msg: String) = println(msg)
   }
 

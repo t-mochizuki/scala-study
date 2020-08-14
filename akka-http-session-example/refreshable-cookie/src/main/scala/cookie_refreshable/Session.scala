@@ -1,4 +1,4 @@
-package example
+package refreshable_cookie
 
 import com.softwaremill.session.{SessionSerializer, SingleValueSessionSerializer}
 import io.circe.generic.semiauto._

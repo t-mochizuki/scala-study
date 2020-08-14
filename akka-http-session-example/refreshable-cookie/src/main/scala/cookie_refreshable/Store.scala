@@ -1,4 +1,4 @@
-package example
+package refreshable_cookie
 
 import io.circe.generic.semiauto._
 import io.circe.{Decoder, Encoder}

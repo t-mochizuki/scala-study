@@ -1,4 +1,4 @@
-package example
+package refreshable_cookie
 
 import com.redis.RedisClient
 import com.softwaremill.session.{RefreshTokenData, RefreshTokenLookupResult, RefreshTokenStorage}
@@ -10,7 +10,7 @@ import scala.concurrent.duration.Duration
 @SuppressWarnings(
   Array("org.wartremover.warts.NonUnitStatements")
 )
-trait MyRefreshTokenStorage extends RefreshTokenStorage[Session] {
+trait InMemoryDBRefreshTokenStorage extends RefreshTokenStorage[Session] {
 
   private val _store = new RedisClient("localhost", 6379)
 
