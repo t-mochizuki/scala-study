@@ -1,4 +1,4 @@
-package example
+package refreshable_cookie
 
 import akka.http.scaladsl.model.headers.{`Set-Cookie`, Cookie}
 import akka.http.scaladsl.model.{FormData, StatusCodes}
