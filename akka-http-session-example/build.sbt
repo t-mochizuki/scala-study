@@ -28,7 +28,7 @@ lazy val redisClient = project
   .in(file("redis-client"))
   .settings(
     commonSettings,
-    libraryDependencies ++= serverDeps
+    libraryDependencies ++= coreDeps
   )
 
 lazy val csrf = project
