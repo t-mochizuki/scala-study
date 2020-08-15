@@ -24,6 +24,13 @@ lazy val commonSettings = Seq(
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 )
 
+lazy val ldapClient = project
+  .in(file("ldap-client"))
+  .settings(
+    commonSettings,
+    libraryDependencies ++= ldapDeps
+  )
+
 lazy val redisClient = project
   .in(file("redis-client"))
   .settings(
@@ -62,4 +69,5 @@ lazy val root = project
     refreshableCookie,
     oneoffHeader,
     csrf,
-    redisClient)
+    redisClient,
+    ldapClient)
