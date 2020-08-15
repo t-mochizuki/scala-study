@@ -9,6 +9,8 @@ object Dependencies {
     val scalatest = "3.2.0"
     val circe = "0.13.0"
     val redisClient = "3.30"
+    val config = "1.4.0"
+    val unboundidLdapsdk = "5.1.0"
   }
 
   val akkaHttp = "com.typesafe.akka" %% "akka-http" % Version.akkaHttp
@@ -23,6 +25,13 @@ object Dependencies {
   val circeCore = "io.circe" %% "circe-core" % Version.circe
   val circeGeneric = "io.circe" %% "circe-generic" % Version.circe
   val circeParser = "io.circe" %% "circe-parser" % Version.circe
+  val config = "com.typesafe" % "config" % Version.config
+  val unboundidLdapsdk = "com.unboundid" % "unboundid-ldapsdk" % Version.unboundidLdapsdk
+
+  val ldapDeps = Seq(
+    config,
+    unboundidLdapsdk
+  )
 
   val scalatestDeps = Seq(
     scalatestFlatSpec,
