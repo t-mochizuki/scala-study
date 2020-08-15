@@ -24,6 +24,13 @@ lazy val commonSettings = Seq(
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 )
 
+lazy val redisClient = project
+  .in(file("redis-client"))
+  .settings(
+    commonSettings,
+    libraryDependencies ++= serverDeps
+  )
+
 lazy val csrf = project
   .in(file("csrf"))
   .settings(
@@ -51,4 +58,8 @@ lazy val root = project
     commonSettings,
     libraryDependencies ++= rootDeps
   )
-  .aggregate(refreshableCookie, oneoffHeader, csrf)
+  .aggregate(
+    refreshableCookie,
+    oneoffHeader,
+    csrf,
+    redisClient)
