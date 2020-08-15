@@ -24,19 +24,23 @@ object Dependencies {
   val circeGeneric = "io.circe" %% "circe-generic" % Version.circe
   val circeParser = "io.circe" %% "circe-parser" % Version.circe
 
+  val scalatestDeps = Seq(
+    scalatestFlatSpec,
+    scalatestDiagrams,
+    scalatestMustMatchers)
+
+  val coreDeps = Seq(
+    redisClient,
+    circeCore,
+    circeGeneric,
+    circeParser)
+
   val serverDeps = Seq(
     akkaHttp,
     akkaHttpTestkit,
     akkaHttpSession,
     akkaStream,
-    akkaStreamTestKit,
-    circeCore,
-    circeGeneric,
-    circeParser,
-    redisClient,
-    scalatestFlatSpec,
-    scalatestDiagrams,
-    scalatestMustMatchers)
+    akkaStreamTestKit) ++ coreDeps ++ scalatestDeps
 
   val rootDeps = Nil
 
