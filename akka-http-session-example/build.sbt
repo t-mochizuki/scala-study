@@ -24,7 +24,14 @@ lazy val commonSettings = Seq(
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 )
 
-lazy val oneOffHeader = project
+lazy val csrf = project
+  .in(file("csrf"))
+  .settings(
+    commonSettings,
+    libraryDependencies ++= serverDeps
+  )
+
+lazy val oneoffHeader = project
   .in(file("oneoff-header"))
   .settings(
     commonSettings,
@@ -44,4 +51,4 @@ lazy val root = project
     commonSettings,
     libraryDependencies ++= rootDeps
   )
-  .aggregate(refreshableCookie, oneOffHeader)
+  .aggregate(refreshableCookie, oneoffHeader, csrf)
