@@ -2,7 +2,6 @@ package example
 
 import akka.http.scaladsl.server.{HttpApp, Route}
 import com.softwaremill.session.{SessionConfig, SessionManager}
-import com.softwaremill.session.InMemoryRefreshTokenStorage
 import example.routing._
 
 object Main extends HttpApp with App with GraphqlRoute with LoginRoute with LogoutRoute {
@@ -11,15 +10,16 @@ object Main extends HttpApp with App with GraphqlRoute with LoginRoute with Logo
 
   implicit val sessionManager = new SessionManager[Session](sessionConfig)
 
-  implicit val refreshTokenStorage = new InMemoryRefreshTokenStorage[Session] {
-    def log(msg: String) = println(msg)
-  }
+  def createRoutes()(implicit
+      sessionManager: SessionManager[Session]
+  ): Route =
+    loginRoute() ~
+    logoutRoute() ~
+    graphQLRoute()
 
   override def routes: Route = {
     Route.seal {
-      loginRoute() ~
-      logoutRoute() ~
-      graphQLRoute()
+      createRoutes()
     }
   }
 

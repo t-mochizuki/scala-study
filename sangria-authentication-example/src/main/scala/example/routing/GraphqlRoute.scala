@@ -3,10 +3,7 @@ package example.routing
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.server.Route
-import com.softwaremill.session.SessionDirectives.requiredSession
-import com.softwaremill.session.SessionOptions.{refreshable, usingCookies}
 import com.softwaremill.session.SessionManager
-import com.softwaremill.session.RefreshTokenStorage
 import de.heikoseeberger.akkahttpcirce.ErrorAccumulatingCirceSupport._
 import example.Session
 import example.context.UserContext
@@ -29,8 +26,7 @@ trait GraphqlRoute extends GraphqlSchema with Directives {
   }
 
   def graphQLRoute()(implicit
-      sessionManager: SessionManager[Session],
-      refreshTokenStorage: RefreshTokenStorage[Session]
+      sessionManager: SessionManager[Session]
   ): Route =
     path("graphql") {
       post {
@@ -72,12 +68,11 @@ trait GraphqlRoute extends GraphqlSchema with Directives {
       operationName: Option[String],
       variables: Json
   )(implicit
-      sessionManager: SessionManager[Session],
-      refreshTokenStorage: RefreshTokenStorage[Session]
+      sessionManager: SessionManager[Session]
   ): Route =
     extractExecutionContext { implicit ec =>
 
-      optionalCookie(sessionManager.config.sessionCookieConfig.name) { token =>
+      optionalHeaderValueByName(sessionManager.config.sessionHeaderConfig.getFromClientHeaderName) { token =>
 
         complete(
           Executor

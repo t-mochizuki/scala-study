@@ -1,9 +1,9 @@
 package example
 
-import akka.http.scaladsl.model.headers.{`Set-Cookie`, Cookie}
-import akka.http.scaladsl.model.{FormData, StatusCodes}
+import akka.http.scaladsl.model.headers.RawHeader
+import akka.http.scaladsl.model.{ContentTypes, FormData, HttpEntity, HttpMethods, HttpRequest, StatusCodes}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
-import com.softwaremill.session.{InMemoryRefreshTokenStorage, SessionConfig, SessionManager}
+import com.softwaremill.session.{SessionConfig, SessionManager}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.diagrams.Diagrams
 
@@ -15,40 +15,41 @@ class MainSpec extends AnyFlatSpec with Diagrams with ScalatestRouteTest {
 
   implicit val sessionManager = new SessionManager[Session](sessionConfig)
 
-  implicit val refreshTokenStorage = new InMemoryRefreshTokenStorage[Session] {
-    def log(msg: String) = println(msg)
-  }
-
-  implicit val ec = system.dispatcher
-
-  "login" should ("be Unauthorized if id or password is wrong") in {
-    Post("/login", FormData("id" -> "id", "password" -> "password")) ~> Main
-      .createRoutes() ~> check {
+  "login" should ("be Unauthorized if id wrong") in {
+    Post("/login", FormData("id" -> "id", "password" -> "admin")) ~>
+    Main.createRoutes() ~> check {
       assert(status === StatusCodes.Unauthorized)
     }
   }
 
   it should ("be OK if id and password are correct") in {
-    Post("/login", FormData("id" -> "admin", "password" -> "admin")) ~> Main
-      .createRoutes() ~> check {
+    Post("/login", FormData("id" -> "admin", "password" -> "admin")) ~>
+    Main.createRoutes() ~> check {
       assert(status === StatusCodes.OK)
     }
   }
 
   "logout" should ("be OK") in {
-    Post("/logout") ~> Main.createRoutes() ~> check {
+    Post("/logout") ~>
+    Main.createRoutes() ~> check {
       assert(status === StatusCodes.OK)
     }
   }
 
-  "hello" should ("be OK") in {
-    Post("/login", FormData("id" -> "admin", "password" -> "admin")) ~> Main
-      .createRoutes() ~> check {
-      Get("/hello") ~> Cookie("_sessiondata" -> header[`Set-Cookie`].get.cookie.value) ~> Main
-        .createRoutes() ~> check {
+  "graphql" should ("be OK") in {
+    Post("/login", FormData("id" -> "admin", "password" -> "admin")) ~>
+    Main.createRoutes() ~> check {
+      HttpRequest(
+        method = HttpMethods.POST,
+        uri = "/graphql")
+      .withEntity(
+        HttpEntity(
+          ContentTypes.`application/json`,
+          """{"query":"{numbers}"}""")) ~>
+      RawHeader("Authorization", header("Set-Authorization").get.value) ~>
+      Main.createRoutes() ~> check {
         assert(status === StatusCodes.OK)
       }
     }
   }
-
 }
