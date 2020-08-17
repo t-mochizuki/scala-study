@@ -9,25 +9,25 @@ object Main extends App {
   val ldapHost = config.getString("ldap.host")
   val ldapPort = config.getInt("ldap.port")
 
-  @SuppressWarnings(Array("org.wartremover.warts.NonUnitStatements"))
-  def using[A](s: A)(f: A => Any)(implicit ev: A => { def close(): Unit }): Unit = {
+  def using[A, B](s: A)(f: A => B)(implicit ev: A => { def close(): Unit }): B = {
     try {
       f(s)
-      println("success")
-    } catch { case e: LDAPException =>
-      println(s"failure: ${e.getMessage}")
     } finally {
       s.close()
-      println("closed")
     }
   }
 
+  val result = using(new LDAPConnection(ldapHost, ldapPort)) { connection =>
+    val bindDN = args(0)
+    val password = args(1)
 
-  val bindDN = args(0)
-  val password = args(1)
-
-  using(new LDAPConnection(ldapHost, ldapPort)) { connection =>
-    connection.bind(bindDN, password)
+    try {
+      connection.bind(bindDN, password)
+    } catch { case e: LDAPException =>
+      new BindResult(e)
+    }
   }
+
+  println(result)
 
 }
