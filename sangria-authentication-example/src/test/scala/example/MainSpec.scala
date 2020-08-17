@@ -54,6 +54,22 @@ class MainSpec extends AnyFlatSpec with Diagrams with ScalatestRouteTest {
     }
   }
 
+  it should ("be authentication exception") in {
+    HttpRequest(
+      method = HttpMethods.POST,
+      uri = "/graphql")
+    .withEntity(
+      HttpEntity(
+        ContentTypes.`application/json`,
+        """{"query":"{numbers}"}""")) ~>
+    RawHeader("Authorization", "") ~>
+    Main.createRoutes() ~> check {
+      assert(responseEntity.httpEntity.contentLengthOption === Some(119))
+      assert(status === StatusCodes.OK)
+    }
+  }
+
+
   it should "be OK without login" in {
     HttpRequest(
       method = HttpMethods.POST,
