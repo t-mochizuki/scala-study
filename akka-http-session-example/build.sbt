@@ -38,8 +38,8 @@ lazy val redisClient = project
     libraryDependencies ++= coreDeps
   )
 
-lazy val csrf = project
-  .in(file("csrf"))
+lazy val csrfProtection = project
+  .in(file("csrf-protection"))
   .settings(
     commonSettings,
     libraryDependencies ++= serverDeps
@@ -68,6 +68,6 @@ lazy val root = project
   .aggregate(
     refreshableCookie,
     oneoffHeader,
-    csrf,
+    csrfProtection,
     redisClient,
     ldapClient)
