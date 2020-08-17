@@ -48,8 +48,23 @@ class MainSpec extends AnyFlatSpec with Diagrams with ScalatestRouteTest {
           """{"query":"{numbers}"}""")) ~>
       RawHeader("Authorization", header("Set-Authorization").get.value) ~>
       Main.createRoutes() ~> check {
+        assert(responseEntity.httpEntity.contentLengthOption === Some(28))
         assert(status === StatusCodes.OK)
       }
+    }
+  }
+
+  it should "be OK without login" in {
+    HttpRequest(
+      method = HttpMethods.POST,
+      uri = "/graphql")
+    .withEntity(
+      HttpEntity(
+        ContentTypes.`application/json`,
+        """{"query":"{ __schema { types { name } } }"}""")) ~>
+    Main.createRoutes() ~> check {
+      assert(responseEntity.httpEntity.contentLengthOption === Some(282))
+      assert(status === StatusCodes.OK)
     }
   }
 }
