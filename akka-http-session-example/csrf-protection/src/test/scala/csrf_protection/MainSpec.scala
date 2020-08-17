@@ -1,4 +1,4 @@
-package csrf
+package csrf_protection
 
 import akka.http.scaladsl.model.headers.{`Set-Cookie`, Cookie, RawHeader}
 import akka.http.scaladsl.model.{FormData, StatusCodes}

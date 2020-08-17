@@ -1,4 +1,4 @@
-package csrf
+package csrf_protection
 
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.{HttpApp, Route}
@@ -19,7 +19,7 @@ object Main extends HttpApp with App {
   ): Route =
     // format: off
     randomTokenCsrfProtection(checkHeader) {
-      path("csrf") {
+      path("csrf-token") {
         get {
           complete(StatusCodes.OK)
         }
