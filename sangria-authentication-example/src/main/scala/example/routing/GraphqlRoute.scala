@@ -3,7 +3,7 @@ package example.routing
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.server.Route
-import com.softwaremill.session.{SessionManager, SessionResult}
+import com.softwaremill.session.SessionManager
 import de.heikoseeberger.akkahttpcirce.ErrorAccumulatingCirceSupport._
 import example.Session
 import example.context.UserContext
@@ -58,9 +58,7 @@ trait GraphqlRoute extends GraphqlSchema with Directives {
     Array(
       "org.wartremover.warts.Any",
       "org.wartremover.warts.Product",
-      "org.wartremover.warts.Serializable",
-      "org.wartremover.warts.Throw",
-      "org.wartremover.warts.NonUnitStatements"
+      "org.wartremover.warts.Serializable"
     )
   )
   def executeGraphQL(
@@ -79,19 +77,7 @@ trait GraphqlRoute extends GraphqlSchema with Directives {
             .execute(
               schema,
               query,
-              new UserContext {
-                val numberRepo = new NumberRepo
-                def numbers(): List[Int] =
-                  token
-                    .flatMap { v =>
-                      sessionManager.clientSessionManager.decode(v) match {
-                        case s: SessionResult.Decoded[Session] => Some(s.session.id)
-                        case _ => None
-                      }
-                    }
-                    .map(_ => numberRepo.numbers)
-                    .getOrElse(throw new AuthenticationException("Access token is not found"))
-              },
+              UserContext(token, new NumberRepo),
               variables = variables,
               operationName = operationName,
               exceptionHandler = exceptionHandler,
