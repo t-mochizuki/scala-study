@@ -23,6 +23,7 @@ trait GraphqlRoute extends GraphqlSchema with Directives {
 
   val exceptionHandler = ExceptionHandler {
     case (_, AuthenticationException(message)) => HandledException(message)
+    case (_, AuthorisationException(message)) => HandledException(message)
   }
 
   def graphQLRoute()(implicit
