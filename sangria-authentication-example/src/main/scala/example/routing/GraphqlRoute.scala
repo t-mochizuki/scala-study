@@ -15,7 +15,7 @@ import example.schema.GraphqlSchema
 import io.circe.Json
 import io.circe.parser._
 import sangria.ast.Document
-import sangria.execution.{ErrorWithResolver, Executor, QueryAnalysisError}
+import sangria.execution.{ErrorWithResolver, ExceptionHandler, Executor, HandledException, QueryAnalysisError}
 import sangria.marshalling.circe._
 import sangria.parser.{QueryParser, SyntaxError}
 
@@ -23,6 +23,10 @@ import scala.util.control.NonFatal
 import scala.util.{Failure, Success}
 
 trait GraphqlRoute extends GraphqlSchema with Directives {
+
+  val exceptionHandler = ExceptionHandler {
+    case (_, AuthenticationException(message)) => HandledException(message)
+  }
 
   def graphQLRoute()(implicit
       sessionManager: SessionManager[Session],
@@ -73,7 +77,7 @@ trait GraphqlRoute extends GraphqlSchema with Directives {
   ): Route =
     extractExecutionContext { implicit ec =>
 
-      extractRequest { httpRequest =>
+      optionalCookie(sessionManager.config.sessionCookieConfig.name) { token =>
 
         complete(
           Executor
@@ -83,15 +87,16 @@ trait GraphqlRoute extends GraphqlSchema with Directives {
               new UserContext {
                 val numberRepo = new NumberRepo
                 def numbers(): List[Int] = {
-                  if (httpRequest.cookies.filter(_.name == "_sessiondata").headOption.isDefined) {
+                  if (token.isDefined) {
                     numberRepo.numbers
                   } else {
-                    throw new Exception
+                    throw new AuthenticationException("Access token is not found")
                   }
                 }
               },
               variables = variables,
               operationName = operationName,
+              exceptionHandler = exceptionHandler,
               middleware = Nil
             )
             .map(OK -> _)
