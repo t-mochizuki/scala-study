@@ -4,6 +4,8 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 ThisBuild / scalaVersion := "2.13.2"
 ThisBuild / version := "0.1.0"
 
+addCommandAlias("fmt", ";scalafmtAll;scalafmtSbt")
+
 val unusedWarnings = Set("-Ywarn-unused")
 
 lazy val commonSettings = Seq(
