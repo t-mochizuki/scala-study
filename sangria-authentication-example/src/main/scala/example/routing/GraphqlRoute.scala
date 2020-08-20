@@ -12,7 +12,13 @@ import example.schema.GraphqlSchema
 import io.circe.Json
 import io.circe.parser._
 import sangria.ast.Document
-import sangria.execution.{ErrorWithResolver, ExceptionHandler, Executor, HandledException, QueryAnalysisError}
+import sangria.execution.{
+  ErrorWithResolver,
+  ExceptionHandler,
+  Executor,
+  HandledException,
+  QueryAnalysisError
+}
 import sangria.marshalling.circe._
 import sangria.parser.{QueryParser, SyntaxError}
 
@@ -70,26 +76,25 @@ trait GraphqlRoute extends GraphqlSchema with Directives {
       sessionManager: SessionManager[Session]
   ): Route =
     extractExecutionContext { implicit ec =>
-
-      optionalHeaderValueByName(sessionManager.config.sessionHeaderConfig.getFromClientHeaderName) { token =>
-
-        complete(
-          Executor
-            .execute(
-              schema,
-              query,
-              UserContext(token, new NumberRepo),
-              variables = variables,
-              operationName = operationName,
-              exceptionHandler = exceptionHandler,
-              middleware = Nil
-            )
-            .map(OK -> _)
-            .recover {
-              case error: QueryAnalysisError => BadRequest -> error.resolveError
-              case error: ErrorWithResolver => InternalServerError -> error.resolveError
-            }
-        )
+      optionalHeaderValueByName(sessionManager.config.sessionHeaderConfig.getFromClientHeaderName) {
+        token =>
+          complete(
+            Executor
+              .execute(
+                schema,
+                query,
+                UserContext(token, new NumberRepo),
+                variables = variables,
+                operationName = operationName,
+                exceptionHandler = exceptionHandler,
+                middleware = Nil
+              )
+              .map(OK -> _)
+              .recover {
+                case error: QueryAnalysisError => BadRequest -> error.resolveError
+                case error: ErrorWithResolver => InternalServerError -> error.resolveError
+              }
+          )
       }
     }
 

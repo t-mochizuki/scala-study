@@ -14,8 +14,8 @@ object Main extends HttpApp with App with GraphqlRoute with LoginRoute with Logo
       sessionManager: SessionManager[Session]
   ): Route =
     loginRoute() ~
-    logoutRoute() ~
-    graphQLRoute()
+      logoutRoute() ~
+      graphQLRoute()
 
   override def routes: Route = {
     Route.seal {

@@ -5,7 +5,9 @@ import example.repository.NumberRepo
 import example.routing.AuthorisationException
 import example.Session
 
-case class UserContext(token: Option[String], numberRepo: NumberRepo)(implicit sessionManager: SessionManager[Session]) {
+case class UserContext(token: Option[String], numberRepo: NumberRepo)(implicit
+    sessionManager: SessionManager[Session]
+) {
 
   @SuppressWarnings(Array("org.wartremover.warts.Throw"))
   def authorized[T](fn: => T): T =

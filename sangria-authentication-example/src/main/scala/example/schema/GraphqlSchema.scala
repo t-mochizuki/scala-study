@@ -9,10 +9,16 @@ trait GraphqlSchema {
   val QueryType = ObjectType(
     "Query",
     fields[UserContext, Unit](
-      Field("numbers", ListType(IntType),
-        resolve = c => c.ctx.authorized {
-          c.ctx.numbers
-        })))
+      Field(
+        "numbers",
+        ListType(IntType),
+        resolve = c =>
+          c.ctx.authorized {
+            c.ctx.numbers
+          }
+      )
+    )
+  )
 
   val schema = Schema(QueryType)
 
