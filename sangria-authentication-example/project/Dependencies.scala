@@ -6,6 +6,7 @@ object Dependencies {
     val akka = "2.6.6"
     val akkaHttp = "10.1.12"
     val akkaHttpSession = "0.5.11"
+    val akkaHttpCors = "1.1.0"
     val circe = "0.13.0"
     val scalatest = "3.2.0"
     val redisClient = "3.30"
@@ -18,6 +19,8 @@ object Dependencies {
   val akkaHttpCirce = "de.heikoseeberger" %% "akka-http-circe" % "1.32.0"
 
   val akkaHttpSession = "com.softwaremill.akka-http-session" %% "core" % Version.akkaHttpSession
+
+  val akkaHttpCors = "ch.megard" %% "akka-http-cors" % Version.akkaHttpCors
 
   val akkaStream = "com.typesafe.akka" %% "akka-stream" % Version.akka
   val akkaStreamTestKit = "com.typesafe.akka" %% "akka-stream-testkit" % Version.akka % Test
@@ -45,6 +48,7 @@ object Dependencies {
     akkaHttpTestkit,
     akkaHttpCirce,
     akkaHttpSession,
+    akkaHttpCors,
     akkaStream,
     akkaStreamTestKit,
     circeCore,
