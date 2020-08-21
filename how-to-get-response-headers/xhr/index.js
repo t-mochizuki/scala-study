@@ -5,6 +5,7 @@ body.append("password", "admin");
 const xhr = new XMLHttpRequest();
 xhr.open(method, "http://localhost:8080/login");
 xhr.setRequestHeader("Accept", "application/json");
+xhr.setRequestHeader("Origin", "http://localhost:8000");
 xhr.send(body);
 xhr.onload = () => {
   console.log(xhr.getResponseHeader("set-authorization"));

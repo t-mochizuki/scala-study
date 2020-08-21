@@ -189,12 +189,13 @@ const fetch = require("axios");
 const FormData = require("form-data");
 
 const headers = {
-  Accept: "application/json"
+  Accept: "application/json",
+  Origin: "http://localhost:8000"
 };
 const form = new FormData();
 form.append("id", "admin");
 form.append("password", "admin");
-console.log(form.getHeaders());
+console.log(form.getHeaders()); // an error occurs in bundle.js at runtime.
 fetch.post(
   "http://localhost:8080/login",
   form,

@@ -4,7 +4,8 @@ const FormData = require("form-data");
 
 const method = "POST";
 const headers = {
-  Accept: "application/json"
+  Accept: "application/json",
+  Origin: "http://localhost:8000"
 };
 const body = new FormData();
 body.append("id", "admin");
