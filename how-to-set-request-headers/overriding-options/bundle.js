@@ -192,17 +192,20 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
+const token = localStorage.getItem('token');
+
 client
   .query({
     query: gql`
-      query GetSchemaTypes {
-        __schema {
-          types {
-            name
-          }
-        }
+      query GetNumbers {
+        numbers
       }
-    `
+    `,
+    context: {
+      headers: {
+        authorization: token
+      }
+    }
   })
   .then(result => console.log(result));
 
