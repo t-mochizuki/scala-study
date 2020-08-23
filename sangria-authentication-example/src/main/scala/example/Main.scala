@@ -28,6 +28,6 @@ object Main extends HttpApp with App with GraphqlRoute with LoginRoute with Logo
     }
   }
 
-  startServer(host = "0.0.0.0", port = 8080)
+  startServer(host = "localhost", port = 8080)
 
 }

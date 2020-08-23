@@ -64,6 +64,6 @@ object Main extends HttpApp with App {
     }
   }
 
-  startServer(host = "0.0.0.0", port = 8080)
+  startServer(host = "localhost", port = 8080)
 
 }
