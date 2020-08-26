@@ -5,8 +5,8 @@ import java.io.{IOException, FileNotFoundException, FileOutputStream}
 
 object Main extends App {
   args match {
-    case Array(urlStr) => download(urlStr)
     case Array() => println("An argument is required")
+    case arr => arr.foreach(download)
   }
 
   def download(urlStr: String) {
@@ -24,7 +24,9 @@ object Main extends App {
           inputStream.close()
         }
 
-      val fos = new FileOutputStream("test.png")
+      val imageName = urlStr.split("/").last
+
+      val fos = new FileOutputStream(imageName)
       try {
         fos.write(bytes)
       } finally {
