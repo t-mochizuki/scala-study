@@ -1,7 +1,7 @@
 package example
 
 import java.net.URL
-import java.io.FileOutputStream
+import java.io.{IOException, FileNotFoundException, FileOutputStream}
 
 object Main extends App {
   args match {
@@ -12,20 +12,34 @@ object Main extends App {
   def download(urlStr: String) {
     val url = new URL(urlStr)
     val conn = url.openConnection()
-    val inputStream = conn.getInputStream()
-    val bytes =
+
+    try {
+
+      val inputStream = conn.getInputStream()
+
+      val bytes =
+        try {
+          inputStream.readAllBytes
+        } finally {
+          inputStream.close()
+        }
+
+      val fos = new FileOutputStream("test.png")
       try {
-        inputStream.readAllBytes
+        fos.write(bytes)
       } finally {
-        inputStream.close()
+        fos.close()
       }
 
-    val fos = new FileOutputStream("test.png")
-    try {
-      fos.write(bytes)
-    } finally {
-      fos.close()
+    } catch {
+      case e: FileNotFoundException =>
+        println(s"${e.getMessage} is not found")
+        throw e
+      case e: IOException =>
+        println(e.getMessage)
+        throw e
     }
+
   }
 }
 
