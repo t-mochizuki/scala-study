@@ -1,9 +1,9 @@
-package example
+package resolve_based_auth
 
 import akka.http.scaladsl.server.{HttpApp, Route}
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives.cors
 import com.softwaremill.session.{SessionConfig, SessionManager}
-import example.routing._
+import resolve_based_auth.routing._
 
 object Main extends HttpApp with App with GraphqlRoute with LoginRoute with LogoutRoute {
 

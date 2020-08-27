@@ -1,11 +1,11 @@
-package example.routing
+package resolve_based_auth.routing
 
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.{Directives, Route}
 import com.softwaremill.session.SessionDirectives.setSession
 import com.softwaremill.session.SessionManager
 import com.softwaremill.session.SessionOptions.{oneOff, usingHeaders}
-import example.Session
+import resolve_based_auth.Session
 
 trait LoginRoute extends Directives {
 

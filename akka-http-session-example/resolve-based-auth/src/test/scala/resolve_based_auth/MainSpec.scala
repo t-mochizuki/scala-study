@@ -1,4 +1,4 @@
-package example
+package resolve_based_auth
 
 import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.model.{

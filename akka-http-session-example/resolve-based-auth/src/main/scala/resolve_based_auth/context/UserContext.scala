@@ -1,9 +1,9 @@
-package example.context
+package resolve_based_auth.context
 
 import com.softwaremill.session.{SessionManager, SessionResult}
-import example.repository.NumberRepo
-import example.routing.AuthorisationException
-import example.Session
+import resolve_based_auth.repository.NumberRepo
+import resolve_based_auth.routing.AuthorisationException
+import resolve_based_auth.Session
 
 case class UserContext(token: Option[String], numberRepo: NumberRepo)(implicit
     sessionManager: SessionManager[Session]

@@ -1,6 +1,6 @@
-package example.schema
+package resolve_based_auth.schema
 
-import example.context.UserContext
+import resolve_based_auth.context.UserContext
 import sangria.schema._
 
 @SuppressWarnings(Array("org.wartremover.warts.Any"))

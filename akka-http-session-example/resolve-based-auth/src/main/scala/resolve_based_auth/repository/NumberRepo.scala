@@ -1,4 +1,4 @@
-package example.repository
+package resolve_based_auth.repository
 
 class NumberRepo {
   private val Numbers = List(2, 3, 4)

@@ -1,14 +1,14 @@
-package example.routing
+package resolve_based_auth.routing
 
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives
 import akka.http.scaladsl.server.Route
 import com.softwaremill.session.SessionManager
 import de.heikoseeberger.akkahttpcirce.ErrorAccumulatingCirceSupport._
-import example.Session
-import example.context.UserContext
-import example.repository.NumberRepo
-import example.schema.GraphqlSchema
+import resolve_based_auth.Session
+import resolve_based_auth.context.UserContext
+import resolve_based_auth.repository.NumberRepo
+import resolve_based_auth.schema.GraphqlSchema
 import io.circe.Json
 import io.circe.parser._
 import sangria.ast.Document

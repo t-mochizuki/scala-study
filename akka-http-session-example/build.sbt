@@ -26,6 +26,13 @@ lazy val commonSettings = Seq(
   scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 )
 
+lazy val resolveBasedAuth = project
+  .in(file("resolve-based-auth"))
+  .settings(
+    commonSettings,
+    libraryDependencies ++= serverDeps ++ graphqlDeps
+  )
+
 lazy val ldapClient = project
   .in(file("ldap-client"))
   .settings(

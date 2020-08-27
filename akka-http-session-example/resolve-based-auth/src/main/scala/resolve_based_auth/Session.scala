@@ -1,4 +1,4 @@
-package example
+package resolve_based_auth
 
 import com.softwaremill.session.{SessionSerializer, SingleValueSessionSerializer}
 import io.circe.generic.semiauto._
