@@ -79,4 +79,5 @@ lazy val root = project
     oneoffHeader,
     csrfProtection,
     redisClient,
-    ldapClient)
+    ldapClient,
+    resolveBasedAuth)

@@ -42,8 +42,8 @@ object Main extends HttpApp with App {
       path("logout") {
         post {
           requiredSession(oneOff, usingCookies) { _ =>
-            invalidateSession(oneOff, usingCookies) { ctx =>
-              ctx.complete(StatusCodes.OK)
+            invalidateSession(oneOff, usingCookies) {
+              complete(StatusCodes.OK)
             }
           }
         }
