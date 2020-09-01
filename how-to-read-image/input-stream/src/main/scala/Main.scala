@@ -1,7 +1,7 @@
 package example
 
 import java.net.URL
-import java.io.{IOException, FileNotFoundException, FileOutputStream}
+import java.io.FileOutputStream
 
 object Main extends App {
   args match {
@@ -13,33 +13,23 @@ object Main extends App {
 
     val url = getClass.getClassLoader.getResource(urlStr)
 
-    try {
+    if (url == null) return ;
 
-      val inputStream = url.openConnection().getInputStream()
-
-      val bytes =
-        try {
-          inputStream.readAllBytes
-        } finally {
-          inputStream.close()
-        }
-
-      val imageName = urlStr.split("/").last
-
-      val fos = new FileOutputStream(imageName)
+    val inputStream = url.openConnection().getInputStream()
+    val bytes =
       try {
-        fos.write(bytes)
+        inputStream.readAllBytes
       } finally {
-        fos.close()
+        inputStream.close()
       }
 
-    } catch {
-      case e: FileNotFoundException =>
-        println(s"${e.getMessage} is not found")
-        throw e
-      case e: IOException =>
-        println(e.getMessage)
-        throw e
+    val imageName = urlStr.split("/").last
+
+    val fos = new FileOutputStream(imageName)
+    try {
+      fos.write(bytes)
+    } finally {
+      fos.close()
     }
 
   }

@@ -12,6 +12,8 @@ object Main extends App {
 
     val url = getClass.getClassLoader.getResource(urlStr)
 
+    if (url == null) return ;
+
     val inputStream = url.openConnection.getInputStream
 
     try {
