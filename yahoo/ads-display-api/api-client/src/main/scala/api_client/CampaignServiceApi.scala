@@ -1,29 +1,32 @@
 package api_client
 
 import sttp.client._
+import sttp.client.circe._
 
 class CampaignServiceApi(accessToken: String) {
 
-  val backend = HttpURLConnectionBackend()
-
-  def body(campaignServiceSelector: CampaignServiceSelector): String =
-    CampaignServiceSelector.encoder(campaignServiceSelector).toString
+  implicit val backend = HttpURLConnectionBackend()
 
   def request(campaignServiceSelector: CampaignServiceSelector) =
     basicRequest
-      .body(body(campaignServiceSelector))
+      .body(campaignServiceSelector)
       .header("Authorization", s"Bearer $accessToken")
       .header("Content-Type", "application/json")
       .post(uri"https://ads-display.yahooapis.jp/api/v2/CampaignService/get")
+      .send()
 
-  def response(campaignServiceSelector: CampaignServiceSelector): Response[Either[String, String]] =
-    backend.send(request(campaignServiceSelector))
+  def response(
+      campaignServiceSelector: CampaignServiceSelector
+  ): Response[Either[String, String]] =
+    try (request(campaignServiceSelector))
+    finally (backend.close())
 
-  def campaignServiceGetPost(campaignServiceSelector: CampaignServiceSelector): String = {
-    val s = response(campaignServiceSelector)
-    println(s.body.getOrElse(""))
-    println(s.body.left.getOrElse(""))
-    s.body.getOrElse("")
+  def campaignServiceGetPost(
+      campaignServiceSelector: CampaignServiceSelector
+  ): Response[Either[String, String]] = {
+    val r = response(campaignServiceSelector)
+    println(r)
+    r
   }
 
 }
