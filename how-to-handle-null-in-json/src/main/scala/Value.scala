@@ -1,7 +1,7 @@
 package example
 
 import io.circe.generic.semiauto._
-import io.circe.{Decoder, Encoder, Json}
+import io.circe.{Decoder, Encoder}
 
 case class Value(name: String, errors: Seq[Error])
 
