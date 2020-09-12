@@ -1,19 +1,18 @@
 package async_http_client
 
-import java.util.concurrent.ForkJoinPool
-
+import core.SyncExecutor
 import io.circe.Decoder
 import io.circe.generic.semiauto.deriveDecoder
 import sttp.client._
 import sttp.client.akkahttp._
 import sttp.client.circe._
 
-import scala.concurrent._
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
 
-object Main extends App {
+object Main3 extends App {
 
-  val pool = new ForkJoinPool
-  implicit val ec = ExecutionContext.fromExecutorService(pool)
+  implicit val ec = SyncExecutor()
 
   val backend = AkkaHttpBackend()
 
@@ -28,6 +27,8 @@ object Main extends App {
 
   val f = Future.sequence(fs)
 
+  Await.ready(f, Duration.Inf)
+
   for {
     responses <- f
   } {
@@ -39,6 +40,5 @@ object Main extends App {
     backend.close()
     println(java.time.ZonedDateTime.now())
   }
-
 
 }
