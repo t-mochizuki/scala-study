@@ -21,7 +21,7 @@ object Main3 extends App {
 
   println(java.time.ZonedDateTime.now())
 
-  val fs = (1 to 30).map{_ =>
+  val fs = (1 to 1000).map{_ =>
     backend.send(request)
   }
 
