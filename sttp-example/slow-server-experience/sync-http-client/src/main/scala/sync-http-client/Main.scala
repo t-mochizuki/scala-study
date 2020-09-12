@@ -23,4 +23,6 @@ object Main extends App {
 
   println(java.time.ZonedDateTime.now())
 
+  // execution time is about 32s
+
 }

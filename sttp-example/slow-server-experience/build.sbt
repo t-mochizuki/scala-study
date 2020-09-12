@@ -14,15 +14,10 @@ lazy val core = project
 
 lazy val syncHttpClient = project
   .in(file("sync-http-client"))
-  .settings(
-    libraryDependencies ++= coreDeps
-  )
+  .dependsOn(core % "compile->compile;test->test")
 
 lazy val asyncHttpClient = project
   .in(file("async-http-client"))
-  .settings(
-    libraryDependencies ++= coreDeps
-  )
   .dependsOn(core % "compile->compile;test->test")
 
 lazy val root = project

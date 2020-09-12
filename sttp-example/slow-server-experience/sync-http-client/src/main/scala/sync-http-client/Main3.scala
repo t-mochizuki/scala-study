@@ -1,26 +1,27 @@
-package async_http_client
+package sync_http_client
 
-import core.AsyncExecutor
+import core.SyncExecutor
 import sttp.client._
-import sttp.client.akkahttp._
 
 import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future}
+import scala.concurrent.{blocking, Await, Future}
 
-object Main2 extends App {
+object Main3 extends App {
 
-  implicit val ec = AsyncExecutor()
+  implicit val ec = SyncExecutor()
 
-  val backend = AkkaHttpBackend()
+  val backend = HttpURLConnectionBackend()
 
   val request = basicRequest
     .get(uri"http://localhost:8081")
 
   println(java.time.ZonedDateTime.now())
 
-  val f = Future.traverse((1 to 1000)) {_ =>
-    backend.send(request)
+  val fs = (1 to 30).map {_ =>
+    Future(blocking(backend.send(request)))
   }
+
+  val f = Future.sequence(fs)
 
   Await.ready(f, Duration.Inf)
 
@@ -38,6 +39,6 @@ object Main2 extends App {
 
   println(java.time.ZonedDateTime.now())
 
-  // execution time is about 9s
+  // execution time is about 31s
 
 }

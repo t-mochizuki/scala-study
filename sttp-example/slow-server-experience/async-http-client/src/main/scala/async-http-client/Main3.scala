@@ -1,11 +1,8 @@
 package async_http_client
 
 import core.SyncExecutor
-import io.circe.Decoder
-import io.circe.generic.semiauto.deriveDecoder
 import sttp.client._
 import sttp.client.akkahttp._
-import sttp.client.circe._
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
@@ -37,8 +34,12 @@ object Main3 extends App {
     } {
       // println(r)
     }
-    backend.close()
-    println(java.time.ZonedDateTime.now())
   }
+
+  backend.close()
+
+  println(java.time.ZonedDateTime.now())
+
+  // execution time is about 10s
 
 }
