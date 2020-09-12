@@ -21,7 +21,7 @@ object Main2 extends App {
 
   println(java.time.ZonedDateTime.now())
 
-  val f = Future.traverse((1 to 30)) {_ =>
+  val f = Future.traverse((1 to 1000)) {_ =>
     backend.send(request)
   }
 
