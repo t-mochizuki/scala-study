@@ -1,6 +1,7 @@
 package example
 
 import akka.actor.ActorSystem
+import akka.event.Logging
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{ ContentTypes, HttpEntity }
 import akka.http.scaladsl.server.Directives._
@@ -15,8 +16,10 @@ object WebServer extends App {
 
   val route =
     path("hello") {
-      get {
-        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Say hello to akka-http</h1>"))
+      logRequestResult("hello, DebuggingDirectives", Logging.InfoLevel) {
+        get {
+          complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Say hello to akka-http</h1>"))
+        }
       }
     }
 
