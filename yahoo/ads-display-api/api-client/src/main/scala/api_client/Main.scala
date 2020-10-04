@@ -6,11 +6,10 @@ object Main extends App {
     case Array() => println("An argument is required")
     case Array(accountId, accessToken) =>
       new MediaServiceApi(accessToken)
-        .mediaServiceGetPost(
-          MediaServiceSelector(
+        .mediaServiceAddPost(
+          MediaServiceOperation(
             accountId = accountId.toLong,
-            startIndex = 1,
-            numberResults = 1))
+            operand = Nil))
   }
 
 }
