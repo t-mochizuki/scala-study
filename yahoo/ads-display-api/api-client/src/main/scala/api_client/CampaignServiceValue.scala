@@ -3,7 +3,10 @@ package api_client
 import io.circe.generic.semiauto._
 import io.circe.{Decoder, Encoder}
 
-case class CampaignServiceValue(campaign: Option[Campaign], operationSucceeded: Option[Boolean], errors: Option[Seq[Error]])
+case class CampaignServiceValue(
+  campaign: Option[Campaign],
+  operationSucceeded: Option[Boolean],
+  errors: Option[Seq[Option[Error]]])
 
 object CampaignServiceValue {
   implicit val encoder: Encoder[CampaignServiceValue] = deriveEncoder
